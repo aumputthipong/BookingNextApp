@@ -1,11 +1,15 @@
 import React from 'react'
 import Navbar from '../components/Navbar'
-const CalenderPage = () => {
+
+
+const CalendarPage = () => {
   return (
     <div>
       <Navbar></Navbar>
+      
+
     </div>
   )
 }
 
-export default CalenderPage
+export default CalendarPage
