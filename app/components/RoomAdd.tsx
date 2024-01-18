@@ -4,7 +4,7 @@ import React from 'react'
 const RoomAdd = () => {
   return (
     <div>
-        <button onClick={()=> console.log('Yoyo')}>Room</button>
+        <button className="btn btn-primary" onClick={()=> console.log('Yoyo')}>Room</button>
     </div>
   )
 }
