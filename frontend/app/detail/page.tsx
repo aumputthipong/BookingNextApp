@@ -1,5 +1,6 @@
 import React from "react";
 import Navbar from "../components/Navbar";
+import MyCalendar from "../components/MyCalendar";
 const DetailPage = () => {
   return (
     <div>
@@ -29,8 +30,8 @@ const DetailPage = () => {
             <li>จำนวนต่อการใช้ห้อง ไม่เกิน 20 คน/ห้อง</li>
             </ul>
             <text className="">
-                ข้างล่างนี้ก็เป็นตารางไปเลย?
-                ???vvvvvvv
+            <MyCalendar/>
+          
           </text>
         </div>
         <div className="border-solid shadow-xl border-2 w-2/5 rounded-md bg-base-100 mx-1 p-6  ">

@@ -12,6 +12,7 @@
     "next": "14.0.4",
     "prettier": "^3.2.4",
     "react": "^18",
+    "react-calendar": "^4.8.0",
     "react-dom": "^18"
   },
   "devDependencies": {
