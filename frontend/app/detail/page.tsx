@@ -1,6 +1,7 @@
 import React from "react";
 import Navbar from "../components/Navbar";
 import MyCalendar from "../components/MyCalendar";
+import AgendaTable from "../components/AgendaTable";
 const DetailPage = () => {
   return (
     <div>
@@ -23,19 +24,24 @@ const DetailPage = () => {
             PageMaker including versions of Lorem Ipsum.
           </text>
 
-          <h2 className="mb-2 text-lg font-semibold text-gray-900 dark:text-white my-4  ">ข้อควรปฎิบัติ:</h2>
-            <ul className="max-w-md space-y-1 list-disc list-inside">
-                
+          <h2 className="mb-2 text-lg font-semibold text-gray-900 dark:text-white my-4  ">
+            ข้อควรปฎิบัติ:
+          </h2>
+          <ul className="max-w-md space-y-1 list-disc list-inside">
             <li>นักศึกษาจองห้องใช้ห้องได้ไม่เกิน 2 ชม./ครั้ง</li>
             <li>จำนวนต่อการใช้ห้อง ไม่เกิน 20 คน/ห้อง</li>
-            </ul>
-            <text className="">
-            <MyCalendar/>
-          
-          </text>
+          </ul>
         </div>
+        {/* column2 */}
         <div className="border-solid shadow-xl border-2 w-2/5 rounded-md bg-base-100 mx-1 p-6  ">
-            ตรงนี้ควรเป็นform ส่งเพื่อจองห้อง?
+          ตรงนี้ควรเป็นform ส่งเพื่อจองห้อง?
+        </div>
+      </div>
+      {/*ส่วนตารางและ ปฎิทิน*/}
+      <div className="flex my-3">
+        <div className="border-solid shadow-xl border-2 rounded-md bg-base-100 mx-1 p-6 w-full flex grid-cols-2 ">
+          <div className="mx-20"><MyCalendar  /></div>
+          <div><AgendaTable /></div>
         </div>
       </div>
     </div>
