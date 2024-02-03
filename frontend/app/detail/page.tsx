@@ -35,6 +35,10 @@ const DetailPage = () => {
         {/* column2 */}
         <div className="border-solid shadow-xl border-2 w-2/5 rounded-md bg-base-100 mx-1 p-6  ">
           ตรงนี้ควรเป็นform ส่งเพื่อจองห้อง?
+          <MyCalendar/>
+          <MyCalendar/>
+          <input type="date" value="2017-06-01" />
+
         </div>
       </div>
       {/*ส่วนตารางและ ปฎิทิน*/}
@@ -44,6 +48,7 @@ const DetailPage = () => {
           <div><AgendaTable /></div>
         </div>
       </div>
+      
     </div>
   );
 };
