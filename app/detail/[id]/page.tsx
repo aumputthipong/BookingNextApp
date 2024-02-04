@@ -1,11 +1,17 @@
 import React from "react";
-import Navbar from "../components/Navbar";
-import MyCalendar from "../components/MyCalendar";
-import AgendaTable from "../components/AgendaTable";
+
+import MyCalendar from "../../components/MyCalendar";
+import AgendaTable from "../../components/AgendaTable";
+import rooms from "@/app/data/dummydata";
+
+ 
+  // const response = room. 
+
+const response = rooms;
 const DetailPage = () => {
   return (
     <div>
-      <Navbar />
+     
       <div className="border-solid shadow-xl border-2 my-2 rounded-md bg-base-100 mx-1 p-6">
         Hero Titile Here
       </div>
@@ -35,9 +41,12 @@ const DetailPage = () => {
         {/* column2 */}
         <div className="border-solid shadow-xl border-2 w-2/5 rounded-md bg-base-100 mx-1 p-6  ">
           ตรงนี้ควรเป็นform ส่งเพื่อจองห้อง?
-          <MyCalendar/>
-          <MyCalendar/>
+          
+          <form>
+          <input type="string"/>
           <input type="date" value="2017-06-01" />
+          <button className="btn" name="yoy"/>
+          </form>
 
         </div>
       </div>

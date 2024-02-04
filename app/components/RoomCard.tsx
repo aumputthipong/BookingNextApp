@@ -1,12 +1,31 @@
 import React from "react";
 import RoomAdd from "./RoomAdd";
-import rooms from "../data/dummydata";
 import Link from "next/link";
-const RoomCard = () => {
+import roomsdum from "../data/dummydata";
+interface Room {
+  id: string;
+  name: string;
+  description: string;
+}
+
+async function getRooms(): Promise<Room[]> {
+  const response = await fetch('http://localhost:3000/api/room');
+  if (!response.ok) {
+    throw new Error('Cannot fetch Rooms');
+  }
+
+
+  return response.json();
+}
+
+const RoomCard = async () => {
+  const rooms: Room[] = await getRooms();
+  console.log('dada:'+rooms);  
+
   return (
     <>
-      {rooms.map((room, index) => (
-        <Link href="/detail">
+       {roomsdum.map((room) => (
+        <Link href={`/detail${room.id}`}>
           <div key={room.id} className="card w-96 bg-base-100 shadow-xl hover:bg-gray-200">
             <figure>
               <img
@@ -29,6 +48,7 @@ const RoomCard = () => {
         </Link>
       ))}
     </>
+    // <div>dd</div>
   );
 };
 

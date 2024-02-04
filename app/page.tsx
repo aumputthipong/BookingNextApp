@@ -1,12 +1,11 @@
 import Image from 'next/image'
 import Link from 'next/link'
 import RoomCard from './components/RoomCard'
-import Navbar from './components/Navbar'
 import HeroTitle from './components/HeroTitle'
+
 export default function Home() {
   return (
     <main>
-      <Navbar />
       <HeroTitle />
       <div className='flex flex-col items-center'>
         <ul className="menu menu-vertical lg:menu-horizontal bg-base-200 rounded-box ">
