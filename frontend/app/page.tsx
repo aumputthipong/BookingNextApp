@@ -15,12 +15,7 @@ export default function Home() {
           <li><a>Item 3</a></li>
         </ul>
         <div className='grid grid-cols-3 gap-4'>
-         <Link href="/detail"><RoomCard /></Link>
-         <Link href="/detail"><RoomCard /></Link>
-         <Link href="/detail"><RoomCard /></Link>
-         <Link href="/detail"><RoomCard /></Link>
-         <Link href="/detail"><RoomCard /></Link>
-         <Link href="/detail"><RoomCard /></Link>
+        <RoomCard />
         </div>
       </div>
     </main>
