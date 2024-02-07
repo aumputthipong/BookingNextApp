@@ -1,3 +1,4 @@
+
 import React from "react";
 import RoomAdd from "./RoomAdd";
 import Link from "next/link";
@@ -8,7 +9,7 @@ interface Room {
   description: string;
 }
 
-async function getRooms(): Promise<Room[]> {
+async function getRooms() {
   const response = await fetch('http://localhost:3000/api/room');
   if (!response.ok) {
     throw new Error('Cannot fetch Rooms');
@@ -19,14 +20,15 @@ async function getRooms(): Promise<Room[]> {
 }
 
 const RoomCard = async () => {
-  const rooms: Room[] = await getRooms();
-  console.log('dada:'+rooms);  
-
+  const rooms = await getRooms();
+  
+  console.log('rooms',rooms);  
+  console.log('roomsdum',roomsdum);  
   return (
     <>
-       {roomsdum.map((room) => (
-        <Link href={`/detail${room.id}`}>
-          <div key={room.id} className="card w-96 bg-base-100 shadow-xl hover:bg-gray-200">
+       {roomsdum.map((room:any) => (
+        <Link key={room.id} href={`/detail${room.id}`}>
+          <div className="card w-96 bg-base-100 shadow-xl hover:bg-gray-200">
             <figure>
               <img
                 src="https://www.wework.com/ideas/wp-content/uploads/sites/4/2021/08/20201008-199WaterSt-2_v1-scaled.jpg"

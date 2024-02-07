@@ -2,6 +2,8 @@ import connectMongoDB from "@/lib/mongodb";
 import Room from "@/models/room";
 import { NextResponse } from "next/server";
 
+
+// create room api
 export async function POST(request:Request) {
     const{name,description}= await request.json();
     await connectMongoDB();
@@ -9,8 +11,10 @@ export async function POST(request:Request) {
     return NextResponse.json({message:"Room created"},{status:201});
 } 
 
+// get all room api
 export async function GET(){
     await connectMongoDB();
-    const rooms = await Room.find();
-    return NextResponse.json(rooms);
+    const response = await Room.find();
+    return NextResponse.json(response);
 }
+
