@@ -3,31 +3,22 @@ import React from "react";
 import RoomAdd from "./RoomAdd";
 import Link from "next/link";
 import roomsdum from "../data/dummydata";
+
 interface Room {
-  id: string;
+  _id: string;
   name: string;
   description: string;
 }
 
-async function getRooms() {
-  const response = await fetch('http://localhost:3000/api/room');
-  if (!response.ok) {
-    throw new Error('Cannot fetch Rooms');
-  }
+
+ 
+
+const RoomCard = async ({ post }: { post: Room }) => {
 
 
-  return response.json();
-}
 
-const RoomCard = async () => {
-  const rooms = await getRooms();
-  
-  console.log('rooms',rooms);  
-  console.log('roomsdum',roomsdum);  
   return (
-    <>
-       {roomsdum.map((room:any) => (
-        <Link key={room.id} href={`/detail${room.id}`}>
+        <Link key={post._id} href={`/detail/${post._id}`}>
           <div className="card w-96 bg-base-100 shadow-xl hover:bg-gray-200">
             <figure>
               <img
@@ -37,10 +28,10 @@ const RoomCard = async () => {
             </figure>
             <div className="card-body">
               <h2 className="card-title">
-                {room.name}
+                {post.name}
                 <div className="badge badge-secondary">NEW</div>
               </h2>
-              <p>อยากจะรู้ว่าตรงที่เธอยืนนั้น มีฝนตกไหม?</p>
+              <p>{post.description}</p>
               <div className="card-actions justify-end">
                 <div className="badge badge-outline">creative</div>
                 <div className="badge badge-outline">knineZ</div>
@@ -48,10 +39,11 @@ const RoomCard = async () => {
             </div>
           </div>
         </Link>
-      ))}
-    </>
+   
+ 
     // <div>dd</div>
   );
 };
+
 
 export default RoomCard;

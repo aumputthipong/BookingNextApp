@@ -2,8 +2,16 @@ import Image from 'next/image'
 import Link from 'next/link'
 import RoomCard from './components/RoomCard'
 import HeroTitle from './components/HeroTitle'
-
-export default function Home() {
+interface Room {
+  __id: string;
+  name: string;
+  description: string;
+}
+export default async function Home() {
+  const res = await fetch('http://localhost:3000/api/room',
+  {next:{revalidate:10}});
+  const posts: Room[] = await res.json();
+  
   return (
     <main>
       <HeroTitle />
@@ -14,7 +22,11 @@ export default function Home() {
           <li><a>Item 3</a></li>
         </ul>
         <div className='grid grid-cols-3 gap-4'>
-        <RoomCard />
+        {posts.map((post:any)=>(
+            <div key={post.__id}>
+            <RoomCard post={post}/>
+                </div>  
+        ))}
         </div>
       </div>
     </main>
