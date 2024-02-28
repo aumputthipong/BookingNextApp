@@ -3,10 +3,10 @@ import Room from "@/models/room";
 import { NextResponse, } from "next/server";
 
 // get by id api
-export async function GET(request: Request ){
+export async function GET(request: Request){
     const id = request.url.slice(request.url.lastIndexOf('/')+1)
     const res = await Room.findById(id)
-    return NextResponse.json({res});
+    return NextResponse.json(res);
   
 }
 

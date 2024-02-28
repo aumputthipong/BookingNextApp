@@ -1,13 +1,14 @@
 import React from "react";
-
 import MyCalendar from "../../components/MyCalendar";
 import AgendaTable from "../../components/AgendaTable";
-import rooms from "@/app/data/dummydata";
 
-// const response = room.
 
-const response = rooms;
-const DetailPage = () => {
+const DetailPage  = async({params}:{params:{id:string}}) => {
+  const roomId = params.id
+  const res = await fetch(`http://localhost:3000/api/room/${roomId}`,
+  {next:{revalidate:10}});
+  const room = await res.json();
+
   return (
     <div>
       <div className="border-solid shadow-xl border-2 my-2 rounded-md bg-base-100 mx-1 p-6">
@@ -15,7 +16,7 @@ const DetailPage = () => {
       </div>
       <div className="flex grid-cols-2 my-3">
         <div className="border-solid shadow-xl border-2 w-4/5 rounded-md bg-base-100 mx-1 p-6 ">
-          <h1 className="text-2xl font-bold">Creative Room</h1>
+          <h1 className="text-2xl font-bold">{room.name}</h1>
           <text className="">(คำอธิบายห้อง)</text>
 
           <h2 className="mb-2 text-lg font-semibold text-gray-900 dark:text-white my-4  ">
