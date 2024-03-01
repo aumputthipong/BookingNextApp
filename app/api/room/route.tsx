@@ -5,9 +5,13 @@ import { NextResponse } from "next/server";
 
 // create room api
 export async function POST(request:Request) {
-    const{name,description}= await request.json();
+    const formData = await request.formData();
+    const name = formData.get("name");
+    const description = formData.get("description");
+
     await connectMongoDB();
     await Room.create({name,description});
+    
     return NextResponse.json({message:"Room created"},{status:201});
 } 
 
