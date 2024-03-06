@@ -15,3 +15,4 @@ const connectMongoDB = async () =>{
 }
 
 export default connectMongoDB;
+
