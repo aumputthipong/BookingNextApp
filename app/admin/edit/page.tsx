@@ -22,7 +22,7 @@ const EditPage = () => {
     <div>
       <h1>Edit</h1>
       <Link href={"/admin"}>
-        <button className="btn btn-warning">back to consloe</button>
+        <button className="btn btn-warning">Back to console</button>
       </Link>
     </div>
   );

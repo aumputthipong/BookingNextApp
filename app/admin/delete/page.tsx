@@ -20,12 +20,12 @@ const DeletePage = async () => {
       const response = await fetch("http://localhost:3000/api/room/" + roomId, {
         method: "DELETE",
       });
-  
+
       if (!response.ok) {
         throw new Error("Failed to delete room");
       }
-  
-      window.location.href = '/admin';
+
+      // window.location.href = "/admin";
     } catch (error) {
       console.error("Error deleting room:", error);
       // Handle error, show a message, etc.
@@ -54,7 +54,10 @@ const DeletePage = async () => {
                   <td>
                     <button
                       className="btn btn-error"
-                      onClick={() => deleteRoom(item._id)}
+                      onClick={() => {
+                        deleteRoom(item._id);
+                        document.getElementById("delete_modal").showModal();
+                      }}
                     >
                       delete
                     </button>
@@ -65,9 +68,20 @@ const DeletePage = async () => {
           </tbody>
         </table>
       </div>
+      <dialog id="delete_modal" className="modal modal-bottom sm:modal-middle">
+        <div className="modal-box">
+          <h3 className="font-bold text-lg">Successfully deleted!!!</h3>
+          <p className="py-4">This room has been deleted.</p>
+          <div className="modal-action">
+            <Link href={"/admin"}>
+              <button className="btn">Close and Back to console</button>
+            </Link>
+          </div>
+        </div>
+      </dialog>
       <div className="label"></div>
       <Link href={"/admin"}>
-        <button className="btn btn-warning">back to consloe</button>
+        <button className="btn btn-warning">Back to console</button>
       </Link>
     </div>
   );
