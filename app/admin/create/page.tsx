@@ -17,6 +17,11 @@ const CreatePage = () => {
     // Handle response if necessary
     const data = await response.json();
     // ...
+    if (response.ok) {
+      document.getElementById("create_modal").showModal();
+    } else {
+      console.error("Failed to create room");
+    }
   }
   return (
     <section className="flex items-center justify-center">
@@ -50,7 +55,6 @@ const CreatePage = () => {
           <button
             type="submit"
             className="btn btn-success"
-            onClick={() => document.getElementById("create_modal").showModal()}
           >
             สร้าง
           </button>
@@ -66,7 +70,7 @@ const CreatePage = () => {
           <p className="py-4">The room was created successfully.</p>
           <div className="modal-action">
             <form method="dialog">
-              <button className="btn">Close</button>
+              <button className="btn" onClick={() => window.location.reload()}>Close</button>
             </form>
           </div>
         </div>

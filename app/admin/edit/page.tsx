@@ -3,24 +3,54 @@
 import Navbar from "@/app/components/Navbar";
 import Link from "next/link";
 import React from "react";
-import { FormEvent } from "react";
-const EditPage = () => {
-  async function createRoom(event: FormEvent<HTMLFormElement>) {
-    event.preventDefault();
 
-    const formData = new FormData(event.currentTarget);
-    const response = await fetch("http://localhost:3000/api/room", {
-      method: "POST",
-      body: formData,
-    });
+interface Room {
+  _id: string;
+  name: string;
+  description: string;
+}
 
-    // Handle response if necessary
-    const data = await response.json();
-    // ...
-  }
+const EditPage = async () => {
+  const res = await fetch("http://localhost:3000/api/room", {
+    next: { revalidate: 10 },
+  });
+  const posts: Room[] = await res.json();
+  
   return (
-    <div>
-      <h1>Edit</h1>
+    <div className="flex flex-col items-center">
+      <div className="overflow-x-auto">
+        <table className="table">
+          <thead>
+            <tr>
+              <th></th>
+              <th>Name</th>
+              <th>Description</th>
+              <th>Edit</th>
+            </tr>
+          </thead>
+          <tbody>
+            {posts.map((item, i) => {
+              return (
+                <tr>
+                  <th>{i + 1}</th>
+                  <td>{item.name}</td>
+                  <td>{item.description}</td>
+                  <td>
+                    <Link key={item._id} href={`/admin/edit/${item._id}`}>
+                      <button
+                        className="btn btn-info"
+                      >
+                        edit
+                      </button>
+                    </Link>
+                  </td>
+                </tr>
+              );
+            })}
+          </tbody>
+        </table>
+      </div>
+      <div className="label"></div>
       <Link href={"/admin"}>
         <button className="btn btn-warning">Back to console</button>
       </Link>
