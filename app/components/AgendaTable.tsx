@@ -1,16 +1,27 @@
 import React from 'react'
+import Link from "next/link";
 
-const Datas = [
-    {name: 'Mr. A',date:"", startAt:1,endAt:2, reason:""},
-    {name: 'Mr. B',date:"", startAt:3,endAt:4, reason:""},
-    {name: 'Mr. C',date:"", startAt:5,endAt:6, reason:""},
-    {name: 'Mr. D',date:"", startAt:7,endAt:8, reason:""},
-    {name: 'Mr. E',date:"", startAt:9,endAt:10, reason:""},
-    {name: 'Mr. F',date:"", startAt:11,endAt:12, reason:""},
-  ];
+interface Booking {
+  _id: string;
+  roomId: string;
+  studentName: string;
+  timeStart: string;
+  timeEnd: string;
+}
 
-const AgendaTable = () => {
+
+
+const AgendaTable = async ({ book }: { book: Booking }) => {
+  // const Datas = [
+  //   {name: "name",date:"", startAt:1,endAt:2, reason:""},
+  //   {name: "name",date:"", startAt:3,endAt:4, reason:""},
+  //   {name: "name",date:"", startAt:5,endAt:6, reason:""},
+  //   {name: "name",date:"", startAt:7,endAt:8, reason:""},
+  //   {name: "name",date:"", startAt:9,endAt:10, reason:""},
+  //   {name: "name",date:"", startAt:11,endAt:12, reason:""},
+  // ];
   return (
+    <Link key={book._id} href="">
     <div>
           <table className="table">
     {/* head */}
@@ -25,18 +36,19 @@ const AgendaTable = () => {
     <tbody>
 
     <>
-      {Datas.map((data, index) => (
-        <tr key={index}>
+      {/* {Datas.map((data, index) => ( */}
+
           <th></th>
-          <td>{data.name}</td>
-          <td>{data.reason}</td>
-          <td>{`${data.startAt}:00 pm - ${data.endAt}:00pm`}</td>
-        </tr>
-      ))}
+          <td>{book.studentName}</td>
+          <td>{`${book.timeStart}:00 pm - ${book.timeEnd}:00pm`}</td>
+
+      ))
+      {/* } */}
     </>
     </tbody>
   </table>
     </div>
+    </Link>
   )
 }
 
