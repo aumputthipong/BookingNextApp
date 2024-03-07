@@ -1,13 +1,29 @@
+'use client'
 import React from "react";
 import MyCalendar from "../../components/MyCalendar";
 import AgendaTable from "../../components/AgendaTable";
-
+import { FormEvent } from 'react'
 
 const DetailPage  = async({params}:{params:{id:string}}) => {
   const roomId = params.id
   const res = await fetch(`http://localhost:3000/api/room/${roomId}`,
   {next:{revalidate:10}});
   const room = await res.json();
+
+  async function bookingRoom(event: FormEvent<HTMLFormElement>){
+
+    event.preventDefault()
+
+    const formData = new FormData(event.currentTarget)
+    const response = await fetch('http://localhost:3000/api/booking', {
+      method: 'POST',
+      body: formData,
+    })
+ 
+    // Handle response if necessary
+    const data = await response.json()
+    // ...
+  }
 
   return (
     <div>
@@ -28,9 +44,10 @@ const DetailPage  = async({params}:{params:{id:string}}) => {
           </ul>
         </div>
         {/* column2 */}
+        
         <div className="border-solid shadow-xl border-2 w-2/5 rounded-md bg-base-100 mx-1 p-6 ">
           การจอง
-          <form className="col">
+          <form className="col" onSubmit={bookingRoom}>
             <div className="mb-4">
               <label className="block text-gray-700 text-sm font-bold mb-2">
                 รหัสนักศึกษา
