@@ -42,10 +42,6 @@ const DeletePage = () => {
       nameCell.textContent = room.name;
       row.appendChild(nameCell);
 
-      const descriptionCell = document.createElement("td");
-      descriptionCell.textContent = room.description;
-      row.appendChild(descriptionCell);
-
       const deleteButtonCell = document.createElement("td");
       const deleteButton = document.createElement("button");
       deleteButton.textContent = "Delete";
@@ -87,7 +83,6 @@ const DeletePage = () => {
               <th></th>
               <th>Name</th>
               <th>Description</th>
-              <th>Delete</th>
             </tr>
           </thead>
           <tbody id="rooms-table-body"></tbody>
