@@ -24,7 +24,6 @@ const EditPage = async () => {
             <tr>
               <th></th>
               <th>Name</th>
-              <th>Description</th>
               <th>Edit</th>
             </tr>
           </thead>
@@ -34,7 +33,6 @@ const EditPage = async () => {
                 <tr>
                   <th>{i + 1}</th>
                   <td>{item.name}</td>
-                  <td>{item.description}</td>
                   <td>
                     <Link key={item._id} href={`/admin/edit/${item._id}`}>
                       <button
