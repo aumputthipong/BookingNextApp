@@ -5,34 +5,56 @@ import User from "@/models/user";
 
 
 export const options: NextAuthOptions = {
+  secret: process.env.AUTH_SECRET,
+  session:{strategy:"jwt"},
   providers: [
     GoogleProvider({
       clientId: process.env.GOOGLE_CLIENT_ID as string,
       clientSecret: process.env.GOOGLE_CLIENT_SECRET as string,
+    profile(profile){
+      return({
+        id: profile.sub,
+        name:`${profile.given_name} ${profile.family_name}`,
+        email:profile.email,
+        role: profile.role,
+        image: profile.picture,
+      })
+    }
+    
     }),
   ],
   
   callbacks: {
-    async session({ session }) {
-      const sessionUser = await User.findOne({email: session.user?.email});
-      // session.user.id = sessionUser._id;
+    async jwt({token ,user}){
+      return{ ...token, ...user};
+    },
+    async session({ session ,token}) {
+      const sessionUser = await User.findOne({ email: session.user?.email });
+      if (sessionUser) {
+        // session.user.id = sessionUser._id;
+        session.user.role = sessionUser.role; // Add this line
+      }
       return session;
     },
-    async signIn({ user}) {
-      console.log("profile",user);
-      const userInfo = user;
+    async signIn({ profile}) {
+      // console.log("profile",user);
+      // const userInfo = user;
    
       try {
         await connectMongoDB();
 
-        const userExist = await User.findOne({email: userInfo?.email});
+        const userExist = await User.findOne({email: profile?.email});
         
         if (!userExist){
           const user = await User.create({
-            email: userInfo?.email,
-            name: userInfo?.name,
-            image: userInfo?.image,
-            role:"user",
+            email: profile?.email,
+            name: profile?.name,
+            image: profile?.image,
+            // role: profile?.role,
+            // email: userInfo?.email,
+            // name: userInfo?.name,
+            // image: userInfo?.image,
+            // role: userInfo?.role,
           });
         }
         return true;
