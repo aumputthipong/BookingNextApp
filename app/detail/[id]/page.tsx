@@ -1,13 +1,47 @@
+'use client'
 import React from "react";
 import MyCalendar from "../../components/MyCalendar";
 import AgendaTable from "../../components/AgendaTable";
+import { FormEvent } from 'react'
+
+
+interface Booking {
+  _id: string;
+  roomId: string;
+  studentName: string;
+  timeStart: string;
+  timeEnd: string;
+}
 
 
 const DetailPage  = async({params}:{params:{id:string}}) => {
   const roomId = params.id
   const res = await fetch(`http://localhost:3000/api/room/${roomId}`,
   {next:{revalidate:10}});
+
+  const res3 = await fetch(`http://localhost:3000/api/booking/`,
+  {next:{revalidate:10}});
+
   const room = await res.json();
+  const book: Booking[] = await res3.json();
+ 
+  async function bookingRoom(event: FormEvent<HTMLFormElement>){
+
+    event.preventDefault()
+
+    const formData = new FormData(event.currentTarget);
+    formData.append('roomId', roomId);
+
+    const response = await fetch('http://localhost:3000/api/booking', {
+      method: 'POST',
+      body: formData,
+    })
+ 
+    // Handle response if necessary
+    const data = await response.json()
+    // ...
+    window.location.href = '/';
+  }
 
   return (
     <div>
@@ -28,9 +62,10 @@ const DetailPage  = async({params}:{params:{id:string}}) => {
           </ul>
         </div>
         {/* column2 */}
+        
         <div className="border-solid shadow-xl border-2 w-2/5 rounded-md bg-base-100 mx-1 p-6 ">
           การจอง
-          <form className="col">
+          <form className="col" onSubmit={bookingRoom}>
             <div className="mb-4">
               <label className="block text-gray-700 text-sm font-bold mb-2">
                 รหัสนักศึกษา
@@ -38,6 +73,7 @@ const DetailPage  = async({params}:{params:{id:string}}) => {
               <input
                 type="string"
                 className="input input-bordered w-24 md:w-auto"
+                name="studentId"
               />
             </div>
             <div className="mb-4">
@@ -47,6 +83,7 @@ const DetailPage  = async({params}:{params:{id:string}}) => {
               <input
                 type="string"
                 className="input input-bordered w-24 md:w-auto"
+                name="studentName"
               />
             </div>
             <div className="mb-4">
@@ -56,6 +93,7 @@ const DetailPage  = async({params}:{params:{id:string}}) => {
               <input
                 type="string"
                 className="input input-bordered w-24 md:w-auto"
+                name="tel"
               />
             </div>
             <div className="mb-4">
@@ -65,18 +103,28 @@ const DetailPage  = async({params}:{params:{id:string}}) => {
             <input
               type="date"
               className="input input-bordered w-24 md:w-auto"
+              name="date"
             />
              </div>
                 <div className="mb-4">
                 <label className="block text-gray-700 text-sm font-bold mb-2">
-                เวลา
+                เวลาเริ่ม
               </label>
             <input
               type="time"
               className="input input-bordered w-24 md:w-auto"
+              name="timeStart"
+            />
+            <label className="block text-gray-700 text-sm font-bold mb-2">
+                เวลาสิ้นสุด
+              </label>
+            <input
+              type="time"
+              className="input input-bordered w-24 md:w-auto"
+              name="timeEnd"
             />
              </div>
-            <button className="btn" name="">
+            <button type="submit" className="btn" >
               จอง
             </button>
           </form>
@@ -88,9 +136,14 @@ const DetailPage  = async({params}:{params:{id:string}}) => {
           <div className="mx-20">
             <MyCalendar />
           </div>
-          <div>
-            <AgendaTable />
-          </div>
+          <div className='grid grid-cols-3 gap-4'>
+        {book.map((book:any)=>(
+            
+            <AgendaTable book={book}/>
+                
+        ))}
+        </div>
+          
         </div>
       </div>
     </div>

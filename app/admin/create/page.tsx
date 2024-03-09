@@ -17,6 +17,11 @@ const CreatePage = () => {
     // Handle response if necessary
     const data = await response.json();
     // ...
+    if (response.ok) {
+      document.getElementById("create_modal").showModal();
+    } else {
+      console.error("Failed to create room");
+    }
   }
   return (
     <section className="flex items-center justify-center">
@@ -47,15 +52,29 @@ const CreatePage = () => {
         </label>
         <label className="form-control">
           <div className="label"></div>
-          <button type="submit" className="btn btn-success">
+          <button
+            type="submit"
+            className="btn btn-success"
+          >
             สร้าง
           </button>
         </label>
         <div className="label"></div>
         <Link href={"/admin"}>
-          <button className="btn btn-warning">back to consloe</button>
+          <button className="btn btn-warning">Back to console</button>
         </Link>
       </form>
+      <dialog id="create_modal" className="modal modal-bottom sm:modal-middle">
+        <div className="modal-box">
+          <h3 className="font-bold text-lg">Successfully created!!!</h3>
+          <p className="py-4">The room was created successfully.</p>
+          <div className="modal-action">
+            <form method="dialog">
+              <button className="btn" onClick={() => window.location.reload()}>Close</button>
+            </form>
+          </div>
+        </div>
+      </dialog>
     </section>
   );
 };
