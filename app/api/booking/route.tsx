@@ -8,6 +8,7 @@ export async function POST(request:Request) {
     const studentId = formData.get("studentId")
     const studentName = formData.get("studentName");
     const tel = formData.get("tel");
+    const reason = formData.get("reason");
     const date = formData.get("date");
     const timeStart = formData.get("timeStart");
     const timeEnd = formData.get("timeEnd");

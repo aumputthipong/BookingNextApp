@@ -6,9 +6,11 @@ const bookingSchema = new Schema(
         studentId: String,
         studentName: String,
         tel: String,
+        reason: String,
         date: Date,
         timeStart: String,
         timeEnd: String,
+        
     },{
         timestamps:true,
     }
