@@ -5,7 +5,7 @@ import AgendaTable from "@/app/components/AgendaTable";
 import Clock from 'react-live-clock';
 import BookingForm from "@/app/components/BookingForm";
 import { FormEvent } from 'react'
-
+import axios from "axios";
 interface Booking {
   _id: string;
   roomId: string;
@@ -18,35 +18,72 @@ interface Booking {
 }
 
 
-const DetailPage  = async({params}:{params:{id:string}}) => {
-  const roomId = params.id
-  const res = await fetch(`http://localhost:3000/api/room/${roomId}`,
-  {next:{revalidate:10}});
-  const res3 = await fetch(`http://localhost:3000/api/booking/`,
-  {next:{revalidate:5}});
-
-  const room = await res.json();
-  const book: Booking[] = await res3.json();
-
-
-
-  async function bookingRoom(event: FormEvent<HTMLFormElement>){
-    event.preventDefault()
-    const formData = new FormData(event.currentTarget);
-    formData.append('roomId', roomId);
-
-        const response = await fetch('http://localhost:3000/api/booking', {
-      method: 'POST',
-      body: formData,
-    })
+const DetailPage: React.FC<{ params: { id: string } }> = ({ params }) => {
+  console.log (params.id)
  
-    // Handle response if necessary
-    const data = await response.json()
-    // ...
-    window.location.href = '/';
-  }
+  const [room, setRoom] = useState<any>(null);
+  const [bookings, setBookings] = useState<Booking[]>([]);
+  const [bookingError, setBookingError] = useState("");
 
-  
+  const [formData, setFormData] = useState({
+    studentId: '',
+    studentName: '',
+    tel: '',
+    reason: '',
+    date: '',
+    timeStart: '',
+    timeEnd: '',
+  });
+
+
+  useEffect(() => {
+    const fetchRoom = async () => {
+      const res = await fetch(`http://localhost:3000/api/room/${params.id}`);
+      const data = await res.json();
+      setRoom(data);
+    };
+
+    const fetchBookings = async () => {
+      const res = await fetch(`http://localhost:3000/api/booking/`);
+      const data = await res.json();
+      setBookings(data);
+    };
+
+    fetchRoom();
+    fetchBookings();
+  }, [params.id]);
+
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const { name, value } = e.target;
+    setFormData((prevData) => ({
+      ...prevData,
+      [name]: value,
+    }));
+  };
+const handleSubmit = async (e: React.FormEvent) => {
+  e.preventDefault();
+
+  try {
+    const response = await axios.post('http://localhost:3000/api/booking', formData, {
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
+    console.log('Success:', response.data);
+    setFormData({
+      studentId: '',
+      studentName: '',
+      tel: '',
+      reason: '',
+      date: '',
+      timeStart: '',
+      timeEnd: '',
+    });
+  } catch (error) {
+    console.error('Error:', error);
+  }
+};
   return (
     <div>
       {/*ส่วนตารางและ ปฎิทิน*/}
@@ -60,11 +97,11 @@ const DetailPage  = async({params}:{params:{id:string}}) => {
           format={'h:mm:ssa'} 
           style={{fontSize: '1.5em'}} 
           ticking={true} /> 
-            {book.map((book:any)=>(
+            {/* {bookings.map((book:any)=>(
             
             <AgendaTable book={book}/>
                 
-        ))}
+        ))} */}
           </div>
         </div>
       </div>
@@ -88,8 +125,24 @@ const DetailPage  = async({params}:{params:{id:string}}) => {
           <h2 className="text-2xl font-bold my-3">
             แบบฟอร์มสำหรับการจอง
             </h2>
-         
-          <form className="col" onSubmit={bookingRoom} >
+          
+          {/* <form onSubmit={handleSubmit}>
+          <label className="block text-gray-700 text-sm font-bold mb-2">
+          รหัสนักศึกษา
+        </label>
+        <input
+          type="string"
+          maxLength={8}
+          value={studentId}
+          onChange={(e)=> setStudentId(e.target.value)}
+          className="input input-bordered w-24 md:w-auto"
+          name="studentId"
+        />
+        <button type="submit" className="btn">
+        จอง
+      </button>
+          </form > */}
+          <form className="col" onSubmit={handleSubmit} >
       <div className="mb-4">
         <label className="block text-gray-700 text-sm font-bold mb-2">
           รหัสนักศึกษา
@@ -97,6 +150,8 @@ const DetailPage  = async({params}:{params:{id:string}}) => {
         <input
           type="string"
           maxLength={8}
+          value={formData.studentId}
+          onChange={handleChange}
           className="input input-bordered w-24 md:w-auto"
           name="studentId"
         />
@@ -107,6 +162,8 @@ const DetailPage  = async({params}:{params:{id:string}}) => {
         </label>
         <input
           type="string"
+          value={formData.studentName}
+          onChange={handleChange}
           className="input input-bordered w-24 md:w-auto"
           name="studentName"
         />
@@ -118,6 +175,8 @@ const DetailPage  = async({params}:{params:{id:string}}) => {
         <input
           type="string"
           maxLength={10}
+          value={formData.tel}
+          onChange={handleChange}
           className="input input-bordered w-24 md:w-auto"
           name="tel"
         />
@@ -126,9 +185,11 @@ const DetailPage  = async({params}:{params:{id:string}}) => {
         </label>
         <textarea
           className="textarea  textarea-md w-full max-w-xsarea textarea-bordered h-24"
+          value={formData.reason}
+          onChange={handleChange}
           id="grid-first-name"
           name="reason"
-          required
+
         ></textarea>
       </div>
       <div className="mb-4">
@@ -137,6 +198,8 @@ const DetailPage  = async({params}:{params:{id:string}}) => {
         </label>
         <input
           type="date"
+          value={formData.date}
+          onChange={handleChange}
           className="input input-bordered w-36 md:w-auto"
           name="date"
         />
@@ -151,6 +214,8 @@ const DetailPage  = async({params}:{params:{id:string}}) => {
           </label>
           <input
             type="time"
+            value={formData.timeStart}
+            onChange={handleChange}
             className="input input-bordered w-24 md:w-auto"
             name="timeStart"
           />
@@ -161,6 +226,8 @@ const DetailPage  = async({params}:{params:{id:string}}) => {
           </label>
           <input
             type="time"
+            value={formData.timeEnd}
+            onChange={handleChange}
             className="input input-bordered w-24 md:w-auto"
             name="timeEnd"
           />

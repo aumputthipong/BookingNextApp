@@ -1,3 +1,4 @@
+
 import React from 'react'
 import Link from "next/link";
 
@@ -7,6 +8,7 @@ interface Booking {
   studentName: string;
   timeStart: string;
   timeEnd: string;
+  reason:string;
 }
 
 
@@ -21,7 +23,8 @@ const AgendaTable = async ({ book }: { book: Booking }) => {
     {name: "name",date:"", startAt:11,endAt:12, reason:""},
   ];
   return (
-    <Link key={book._id} href="">
+    <div key={book._id}>
+
     <div>
           <table className="table">
     {/* head */}
@@ -42,13 +45,13 @@ const AgendaTable = async ({ book }: { book: Booking }) => {
           <td>{book.studentName}</td>
           <td>{`${book.timeStart}:00 pm - ${book.timeEnd}:00pm`}</td>
 
-      ))
+  
       {/* } */}
     </>
     </tbody>
   </table>
     </div>
-    </Link>
+    </div>
   )
 }
 

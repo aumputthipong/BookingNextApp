@@ -1,4 +1,4 @@
-"use server"
+// "use server"
 import React, { FormEvent } from 'react';
 
 
@@ -11,23 +11,23 @@ const BookingForm= () => {
 
  const bookingRoom = async (event: FormEvent<HTMLFormElement>) => {
     console.log("gg")
-  event.preventDefault();
+  // event.preventDefault();
 
-  const formData = new FormData(event.currentTarget);
+  // const formData = new FormData(event.currentTarget);
 
 
-  const response = await fetch("http://localhost:3000/api/booking", {
-    method: "POST",
-    body: formData,
-  });
+  // const response = await fetch("http://localhost:3000/api/booking", {
+  //   method: "POST",
+  //   body: formData,
+  // });
 
-  if (response.ok) {
-    console.error("sucess");
-   // ส่งข้อมูลการจองไปยัง component หลัก
-  } else {
-    // Handle error
-    console.error("Failed to book room");
-  }
+  // if (response.ok) {
+  //   console.error("sucess");
+  //  // ส่งข้อมูลการจองไปยัง component หลัก
+  // } else {
+  //   // Handle error
+  //   console.error("Failed to book room");
+  // }
 };
    
   return (
@@ -69,7 +69,6 @@ const BookingForm= () => {
           className="textarea  textarea-md w-full max-w-xsarea textarea-bordered h-24"
           id="grid-first-name"
           name="reason"
-          required
         ></textarea>
       </div>
       <div className="mb-4">
