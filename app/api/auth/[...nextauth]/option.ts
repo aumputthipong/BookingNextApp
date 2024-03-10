@@ -36,10 +36,13 @@ export const options: NextAuthOptions = {
       }
       return session;
     },
+
     async signIn({ profile, user}) {
+
       // console.log("profile",user);
       const userInfo = user;
    
+
       try {
         await connectMongoDB();
 
@@ -56,6 +59,9 @@ export const options: NextAuthOptions = {
             // image: userInfo?.image,
             // role: userInfo?.role,
           });
+        }
+        else{
+          
         }
         return true;
 

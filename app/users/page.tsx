@@ -30,7 +30,6 @@ const UsersPage = async () => {
         <th>{user.name}</th>
         <th>{user.email}</th>
         </tr>)}
-      
       </tbody> 
     </table>
     </>
