@@ -37,7 +37,8 @@ export const options: NextAuthOptions = {
       return session;
     },
 
-    async signIn({ user, profile}) {
+    async signIn({ profile, user}) {
+
       // console.log("profile",user);
       const userInfo = user;
    

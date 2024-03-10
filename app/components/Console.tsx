@@ -35,10 +35,12 @@ const Console = () => {
         จัดการห้อง
       </button>
 
+      <Link href={"/admin/report"}>
       <button className="btn h-60 w-60 text-2xl">
         <RiFeedbackFill />
         ปัญหาที่แจ้ง
       </button>
+      </Link>
     </div>
   );
 };
