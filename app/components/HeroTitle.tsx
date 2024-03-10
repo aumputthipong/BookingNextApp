@@ -17,7 +17,7 @@ const HeroTitle = () => {
       {session && session.user && session.user.role === "admin" && 
       ( // Conditional rendering with type safety
             <Link href="/admin">
-              <button className="btn btn-primary">Goto Admin console</button>
+              <button className="btn btn-primary">Go to Admin console</button>
             </Link>
           )}
     </div>

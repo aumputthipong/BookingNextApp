@@ -5,6 +5,7 @@ import AgendaTable from "@/app/components/AgendaTable";
 import Clock from 'react-live-clock';
 import BookingForm from "@/app/components/BookingForm";
 import { FormEvent } from 'react'
+import Link from 'next/link'
 import axios from "axios";
 interface Booking {
   _id: string;
@@ -118,7 +119,13 @@ const handleSubmit = async (e: React.FormEvent) => {
             <li>จำนวนต่อการใช้ห้อง ไม่เกิน 20 คน/ห้อง</li>
             <li>ไม่ส่งเสียงดังรบกวนห้องอื่น</li>
           </ul>
+          <Link href={`/report`}>
+        <button className="btn">
+        แจ้งปัญหา
+      </button>
+        </Link>
         </div>
+        
         {/* column2 */}
 
         <div className="border-solid shadow-xl border-2 w-2/5 rounded-md bg-base-100 mx-1 p-6 ">
