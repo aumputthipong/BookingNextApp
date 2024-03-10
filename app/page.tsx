@@ -16,11 +16,12 @@ export default async function Home() {
     <main>
       <HeroTitle />
       <div className='flex flex-col items-center'>
-        <ul className="menu menu-vertical lg:menu-horizontal bg-base-200 rounded-box ">
+        {/* <ul className="menu menu-vertical lg:menu-horizontal bg-base-200 rounded-box ">
           <li> <Link href="/users"> Users</Link></li>
           <li><Link href="/calendar"> Booking Calender</Link></li>
           <li><a>Item 3</a></li>
-        </ul>
+        </ul> */}
+        <br></br>
         <div className='grid grid-cols-3 gap-4'>
         {posts.map((post:any)=>(
             <div key={post.__id}>

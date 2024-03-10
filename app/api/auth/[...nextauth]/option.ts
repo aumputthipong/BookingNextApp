@@ -36,9 +36,9 @@ export const options: NextAuthOptions = {
       }
       return session;
     },
-    async signIn({ profile}) {
+    async signIn({ user, profile}) {
       // console.log("profile",user);
-      // const userInfo = user;
+      const userInfo = user;
    
       try {
         await connectMongoDB();
@@ -49,7 +49,7 @@ export const options: NextAuthOptions = {
           const user = await User.create({
             email: profile?.email,
             name: profile?.name,
-            image: profile?.image,
+            image: userInfo?.image,
             // role: profile?.role,
             // email: userInfo?.email,
             // name: userInfo?.name,
