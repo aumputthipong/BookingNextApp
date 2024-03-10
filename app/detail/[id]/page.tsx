@@ -89,7 +89,7 @@ const DetailPage: React.FC<{ params: { id: string } }> = ({ params }) => {
   return (
     <div>
       {/*  -------------------------------- ปฎิทิน -------------------------------------------*/}
-      <div className="flex my-3">
+      <div className="flex my-3 ">
         <div className="border-solid shadow-xl border-2 rounded-md bg-base-100 mx-1 p-6 w-full flex grid-cols-2 ">
           <div className="mx-20">
             <MyCalendar />
@@ -101,32 +101,30 @@ const DetailPage: React.FC<{ params: { id: string } }> = ({ params }) => {
               ticking={true}
             />
             {/*  -------------------------------- ส่วนตารางงาน  --------------------------------------- */}
-            {/* {bookings.map((book:any)=>(
-            <AgendaTable book={book}/> 
-        ))} */}<table className="table">
+            <table className="table-fixed">
               {/* head */}
               <thead>
                 <tr>
                   <th></th>
-                  <th>ชื่อผู้จอง</th>
-                  <th></th>
-                  <th>เวลา</th>
+                  <th className="">ชื่อผู้จอง</th>
+                  <th>เวลาเริ่ม</th>
+                  <th>เวลาสิ้นสุด</th>
+                  <th>เหตุผล</th>
                 </tr>
               </thead>
-      {bookings.map((booking:any)=>(
-            
-              <tbody>
-                <>
-                  {/* {Datas.map((data, index) => ( */}
+              {bookings.map((booking: any) => (
+                <tbody>
+                  <>
+                    {/* {Datas.map((data, index) => ( */}
 
-                  <th></th>
-                  <td>{booking.studentName}</td>
-                  <td>{`${booking.timeStart}:00 pm - ${booking.timeEnd}:00pm`}</td>
+                    <th></th>
+                    <td>{booking.studentName}</td>
+                    <td>{`${booking.timeStart < 12 ? booking.timeStart + " a.m." : booking.timeStart + " p.m."}`}</td>
+                    <td>{`${booking.timeEnd < 12 ? booking.timeEnd + " a.m." : booking.timeEnd + " p.m."}`}</td>
 
-                  {/* } */}
-                </>
-              </tbody>
-    
+                    {/* } */}
+                  </>
+                </tbody>
               ))}
             </table>
           </div>
