@@ -1,12 +1,11 @@
 "use client";
 import React, { useState, useEffect } from "react";
 import MyCalendar from "@/app/components/MyCalendar";
-import AgendaTable from "@/app/components/AgendaTable";
 import Clock from "react-live-clock";
-import { FormEvent } from "react";
 import Link from "next/link";
 import axios from "axios";
 import { useSession } from "next-auth/react";
+import { RiMegaphoneLine } from "react-icons/ri";
 interface Booking {
   _id: string;
   roomId: string;
@@ -24,7 +23,9 @@ const DetailPage: React.FC<{ params: { id: string } }> = ({ params }) => {
   const [room, setRoom] = useState<any>(null);
   const [bookings, setBookings] = useState<Booking[]>([]);
 
-  const [selectedDate, setSelectedDate] = useState(formatDate(new Date().toDateString()));
+  const [selectedDate, setSelectedDate] = useState(
+    formatDate(new Date().toDateString())
+  );
   console.log(selectedDate);
   const [formData, setFormData] = useState({
     studentId: "",
@@ -96,8 +97,7 @@ const DetailPage: React.FC<{ params: { id: string } }> = ({ params }) => {
     console.log(
       "Selected date in parent:",
       // setSelectedDate(selectedDateString)
-       setSelectedDate(formatDate(selectedDateString.toDateString()))
-
+      setSelectedDate(formatDate(selectedDateString.toDateString()))
     );
   };
 
@@ -107,14 +107,14 @@ const DetailPage: React.FC<{ params: { id: string } }> = ({ params }) => {
 
     // Define options for formatting the date
     const options: Intl.DateTimeFormatOptions = {
-      year: 'numeric',
-      month: '2-digit',
-      day: '2-digit'
+      year: "numeric",
+      month: "2-digit",
+      day: "2-digit",
     };
-  
+
     // Format the current date using the options
-    const formattedDate = dateObject.toLocaleDateString('en-US', options);
-  
+    const formattedDate = dateObject.toLocaleDateString("en-US", options);
+
     return formattedDate;
   }
   return (
@@ -127,22 +127,26 @@ const DetailPage: React.FC<{ params: { id: string } }> = ({ params }) => {
           </div>
           <div className="grid grid-cols-3 gap-4">
             <div>
-              <Clock
-                format={"h:mm:ssa"}
-                style={{ fontSize: "1.5em" }}
-                ticking={true}
-              />
+              <div className="flex row">
+                <h2 className="text-2xl font-light">เวลาตอนนี้:</h2>
+                <Clock
+                  format={"h:mm:ssa"}
+                  style={{ fontSize: "1.5em" }}
+                  ticking={true}
+                  className="mx-2"
+                />
+              </div>
               {/*  -------------------------------- ส่วนตารางงาน  --------------------------------------- */}
-              <input type="date" />
-              <table className="table">
+
+              <table className="table mt-5">
                 <thead>
                   <tr>
                     <th></th>
-                    <th>ชื่อผู้จอง</th>
-                    <th>เวลาเริ่ม</th>
-                    <th>เวลาสิ้นสุด</th>
-                    <th>เหตุผล</th>
-                    <th>วัน</th>
+                    <th className="p-4 border">ชื่อผู้จอง</th>
+                    <th className="p-4 border">เวลาเริ่ม</th>
+                    <th className="p-4 border">เวลาสิ้นสุด</th>
+                    <th className="p-4 border">เหตุผล</th>
+                    <th className="p-4 border">วัน</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -158,11 +162,13 @@ const DetailPage: React.FC<{ params: { id: string } }> = ({ params }) => {
                     .map((booking: any) => (
                       <tr key={booking.id}>
                         <td></td>
-                        <td>{booking.studentName}</td>
-                        <td>{`${booking.timeStart < 12 ? booking.timeStart + " a.m." : booking.timeStart + " p.m."}`}</td>
-                        <td>{`${booking.timeEnd < 12 ? booking.timeEnd + " a.m." : booking.timeEnd + " p.m."}`}</td>
-                        <td>{booking.reason}</td>
-                        <td>{new Date(booking.date).toLocaleDateString()}</td>
+                        <td className="p-4 border">{booking.studentName}</td>
+                        <td className="p-4 border">{`${booking.timeStart < 12 ? booking.timeStart + " a.m." : booking.timeStart + " p.m."}`}</td>
+                        <td className="p-4 border">{`${booking.timeEnd < 12 ? booking.timeEnd + " a.m." : booking.timeEnd + " p.m."}`}</td>
+                        <td className="p-4 border">{booking.reason}</td>
+                        <td className="p-4 border">
+                          {new Date(booking.date).toLocaleDateString()}
+                        </td>
                       </tr>
                     ))}
                 </tbody>
@@ -171,20 +177,24 @@ const DetailPage: React.FC<{ params: { id: string } }> = ({ params }) => {
           </div>
         </div>
       </div>
-      <div className="flex grid-cols-2 my-3">
+      <div className="flex my-3">
         <div className="border-solid shadow-xl border-2 w-4/5 rounded-md bg-base-100 mx-1 p-6 ">
-          <h1 className="text-2xl font-bold">{room?.name}</h1>
-          <text className="">{room?.description}</text>
+          <div className="flex justify-end mb-4">
+            <Link href={`/report`}>
+              <button className="btn"><RiMegaphoneLine />แจ้งปัญหา</button>
+            </Link>
+          </div>
+          <h1 className="text-3xl font-bold my-6">{room?.name}</h1>
+          <p className="">รายละเอียด: {room?.description}</p>
 
-          <h2 className="mb-2 text-lg font-semibold text-gray-900 dark:text-white my-4  ">
+          <h2 className="mb-2 text-lg font-semibold text-gray-900 dark:text-white my-4">
             ข้อควรปฎิบัติ:
           </h2>
           <ul className="max-w-md space-y-1 list-disc list-inside">
             <li>นักศึกษาจองห้องใช้ห้องได้ไม่เกิน 2 ชม./ครั้ง</li>
             <li>จำนวนต่อการใช้ห้อง ไม่เกิน 10 คน/ห้อง</li>
             <li>
-              ทุกห้องจะเปิดให้บริการทุกวันจันทร์ ถึง ศุกร์ ตั้งแต่เวลา 8.00 -
-              19.00 น.
+              ทุกห้องจะเปิดให้บริการทุกวันจันทร์ ถึง ศุกร์ ตั้งแต่เวลา 8.00-19.00 น.
             </li>
             <li>ใช้งานได้เฉพาะห้องที่ได้ทำการจองไว้เท่านั้น</li>
             <li>ทำการจองห้องก่อนใช้งาน 1 วัน</li>
@@ -193,9 +203,6 @@ const DetailPage: React.FC<{ params: { id: string } }> = ({ params }) => {
             <li>ไม่ส่งเสียงดังรบกวนห้องอื่น</li>
             <li>ไม่ส่งเสียงดังรบกวนห้องอื่น</li>
           </ul>
-          <Link href={`/report`}>
-            <button className="btn">แจ้งปัญหา</button>
-          </Link>
         </div>
 
         {/* column2 */}
