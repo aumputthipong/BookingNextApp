@@ -91,11 +91,13 @@ const DetailPage: React.FC<{ params: { id: string } }> = ({ params }) => {
       console.error("Error:", error);
     }
   };
-  const handleDateClick = (selectedDateString: string) => {
+  const handleDateClick = (selectedDateString: Date) => {
     // Handle the selected date in the parent component
     console.log(
       "Selected date in parent:",
-      setSelectedDate(selectedDateString)
+      // setSelectedDate(selectedDateString)
+       setSelectedDate(formatDate(selectedDateString.toDateString()))
+
     );
   };
 
@@ -151,7 +153,7 @@ const DetailPage: React.FC<{ params: { id: string } }> = ({ params }) => {
                       console.log("bookingDate", formatDate(bookingDate));
                       // console.log("today", formatDate(today));
                       console.log("selectedDate", selectedDate);
-                      return bookingDate === selectedDate; // เปรียบเทียบแค่วันที่
+                      return formatDate(bookingDate) == selectedDate; // เปรียบเทียบแค่วันที่
                     })
                     .map((booking: any) => (
                       <tr key={booking.id}>
@@ -211,7 +213,7 @@ const DetailPage: React.FC<{ params: { id: string } }> = ({ params }) => {
               <input
                 type="string"
                 maxLength={8}
-                value={selectedDate}
+                value={formData.studentId}
                 onChange={handleChange}
                 className="input input-bordered w-24 md:w-auto"
                 name="studentId"
