@@ -158,10 +158,10 @@ const DetailPage: React.FC<{ params: { id: string } }> = ({ params }) => {
                     .map((booking: any) => (
                       <tr key={booking.id}>
                         <td></td>
-                        <td></td>
                         <td>{booking.studentName}</td>
                         <td>{`${booking.timeStart < 12 ? booking.timeStart + " a.m." : booking.timeStart + " p.m."}`}</td>
                         <td>{`${booking.timeEnd < 12 ? booking.timeEnd + " a.m." : booking.timeEnd + " p.m."}`}</td>
+                        <td>{booking.reason}</td>
                         <td>{new Date(booking.date).toLocaleDateString()}</td>
                       </tr>
                     ))}
