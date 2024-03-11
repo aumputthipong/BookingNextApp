@@ -2,13 +2,11 @@
 import React, { useState, useEffect } from "react";
 import MyCalendar from "@/app/components/MyCalendar";
 import AgendaTable from "@/app/components/AgendaTable";
-
-import Clock from 'react-live-clock';
-import BookingForm from "@/app/components/BookingForm";
-import { FormEvent } from 'react'
-import Link from 'next/link'
-
+import Clock from "react-live-clock";
+import { FormEvent } from "react";
+import Link from "next/link";
 import axios from "axios";
+import { useSession } from "next-auth/react";
 interface Booking {
   _id: string;
   roomId: string;
@@ -17,19 +15,21 @@ interface Booking {
   date: Date;
   timeStart: string;
   timeEnd: string;
-  reason: string; // Added reason field
+  reason: string;
 }
 
 const DetailPage: React.FC<{ params: { id: string } }> = ({ params }) => {
-  console.log(params.id);
-
+  const { data: session, status } = useSession();
+  const CurrentUserId = session?.user.id;
   const [room, setRoom] = useState<any>(null);
   const [bookings, setBookings] = useState<Booking[]>([]);
-  const [bookingError, setBookingError] = useState("");
 
+  const [selectedDate, setSelectedDate] = useState(formatDate(new Date().toDateString()));
+  console.log(selectedDate);
   const [formData, setFormData] = useState({
     studentId: "",
     studentName: "",
+    userId: CurrentUserId,
     tel: "",
     reason: "",
     date: "",
@@ -80,6 +80,7 @@ const DetailPage: React.FC<{ params: { id: string } }> = ({ params }) => {
       setFormData({
         studentId: "",
         studentName: "",
+        userId: CurrentUserId,
         tel: "",
         reason: "",
         date: "",
@@ -90,47 +91,81 @@ const DetailPage: React.FC<{ params: { id: string } }> = ({ params }) => {
       console.error("Error:", error);
     }
   };
+  const handleDateClick = (selectedDateString: string) => {
+    // Handle the selected date in the parent component
+    console.log(
+      "Selected date in parent:",
+      setSelectedDate(selectedDateString)
+    );
+  };
+
+  function formatDate(inputDate: string): string {
+    // Create a new Date object for the current date
+    const dateObject = new Date(inputDate);
+
+    // Define options for formatting the date
+    const options: Intl.DateTimeFormatOptions = {
+      year: 'numeric',
+      month: '2-digit',
+      day: '2-digit'
+    };
+  
+    // Format the current date using the options
+    const formattedDate = dateObject.toLocaleDateString('en-US', options);
+  
+    return formattedDate;
+  }
   return (
     <div>
       {/*  -------------------------------- ปฎิทิน -------------------------------------------*/}
       <div className="flex my-3 ">
         <div className="border-solid shadow-xl border-2 rounded-md bg-base-100 mx-1 p-6 w-full flex grid-cols-2 ">
           <div className="mx-20">
-            <MyCalendar />
+            <MyCalendar onDateClick={handleDateClick} />
           </div>
           <div className="grid grid-cols-3 gap-4">
-            <Clock
-              format={"h:mm:ssa"}
-              style={{ fontSize: "1.5em" }}
-              ticking={true}
-            />
-            {/*  -------------------------------- ส่วนตารางงาน  --------------------------------------- */}
-            <table className="table-fixed">
-              {/* head */}
-              <thead>
-                <tr>
-                  <th></th>
-                  <th className="">ชื่อผู้จอง</th>
-                  <th>เวลาเริ่ม</th>
-                  <th>เวลาสิ้นสุด</th>
-                  <th>เหตุผล</th>
-                </tr>
-              </thead>
-              {bookings.map((booking: any) => (
-                <tbody>
-                  <>
-                    {/* {Datas.map((data, index) => ( */}
-
+            <div>
+              <Clock
+                format={"h:mm:ssa"}
+                style={{ fontSize: "1.5em" }}
+                ticking={true}
+              />
+              {/*  -------------------------------- ส่วนตารางงาน  --------------------------------------- */}
+              <input type="date" />
+              <table className="table">
+                <thead>
+                  <tr>
                     <th></th>
-                    <td>{booking.studentName}</td>
-                    <td>{`${booking.timeStart < 12 ? booking.timeStart + " a.m." : booking.timeStart + " p.m."}`}</td>
-                    <td>{`${booking.timeEnd < 12 ? booking.timeEnd + " a.m." : booking.timeEnd + " p.m."}`}</td>
-
-                    {/* } */}
-                  </>
+                    <th>ชื่อผู้จอง</th>
+                    <th>เวลาเริ่ม</th>
+                    <th>เวลาสิ้นสุด</th>
+                    <th>เหตุผล</th>
+                    <th>วัน</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {bookings
+                    .filter((booking: any) => {
+                      const bookingDate = new Date(booking.date).toDateString();
+                      const today = new Date().toDateString();
+                      console.log("bookingDate", formatDate(bookingDate));
+                      // console.log("today", formatDate(today));
+                      console.log("selectedDate", selectedDate);
+                      return bookingDate === selectedDate; // เปรียบเทียบแค่วันที่
+                    })
+                    .map((booking: any) => (
+                      <tr key={booking.id}>
+                        <td></td>
+                        <td></td>
+                        <td>{booking.studentName}</td>
+                        <td>{`${booking.timeStart < 12 ? booking.timeStart + " a.m." : booking.timeStart + " p.m."}`}</td>
+                        <td>{`${booking.timeEnd < 12 ? booking.timeEnd + " a.m." : booking.timeEnd + " p.m."}`}</td>
+                        <td>{new Date(booking.date).toLocaleDateString()}</td>
+                      </tr>
+                    ))}
                 </tbody>
-              ))}
-            </table>
+              </table>
+            </div>
           </div>
         </div>
       </div>
@@ -144,21 +179,26 @@ const DetailPage: React.FC<{ params: { id: string } }> = ({ params }) => {
           </h2>
           <ul className="max-w-md space-y-1 list-disc list-inside">
             <li>นักศึกษาจองห้องใช้ห้องได้ไม่เกิน 2 ชม./ครั้ง</li>
-            <li>จำนวนต่อการใช้ห้อง ไม่เกิน 20 คน/ห้อง</li>
+            <li>จำนวนต่อการใช้ห้อง ไม่เกิน 10 คน/ห้อง</li>
+            <li>
+              ทุกห้องจะเปิดให้บริการทุกวันจันทร์ ถึง ศุกร์ ตั้งแต่เวลา 8.00 -
+              19.00 น.
+            </li>
+            <li>ใช้งานได้เฉพาะห้องที่ได้ทำการจองไว้เท่านั้น</li>
+            <li>ทำการจองห้องก่อนใช้งาน 1 วัน</li>
+            <li>รักษาความสะอาดของห้อง</li>
+            <li>ไากพบปัญหาสามารถกดแจ้งปัญหาพร้อมระบุปัญหาที่พบเจอได้</li>
+            <li>ไม่ส่งเสียงดังรบกวนห้องอื่น</li>
             <li>ไม่ส่งเสียงดังรบกวนห้องอื่น</li>
           </ul>
           <Link href={`/report`}>
-        <button className="btn">
-        แจ้งปัญหา
-      </button>
-        </Link>
+            <button className="btn">แจ้งปัญหา</button>
+          </Link>
         </div>
 
-        
         {/* column2 */}
 
         {/* -------------------------------------------Form จองห้อง------------------------------------------------------- */}
-
 
         <div className="border-solid shadow-xl border-2 w-2/5 rounded-md bg-base-100 mx-1 p-6 ">
           <h2 className="text-2xl font-bold my-3">แบบฟอร์มสำหรับการจอง</h2>
@@ -171,10 +211,11 @@ const DetailPage: React.FC<{ params: { id: string } }> = ({ params }) => {
               <input
                 type="string"
                 maxLength={8}
-                value={formData.studentId}
+                value={selectedDate}
                 onChange={handleChange}
                 className="input input-bordered w-24 md:w-auto"
                 name="studentId"
+                required
               />
             </div>
             <div className="mb-4">
@@ -187,6 +228,7 @@ const DetailPage: React.FC<{ params: { id: string } }> = ({ params }) => {
                 onChange={handleChange}
                 className="input input-bordered w-24 md:w-auto"
                 name="studentName"
+                required
               />
             </div>
             <div className="mb-4">
@@ -200,6 +242,7 @@ const DetailPage: React.FC<{ params: { id: string } }> = ({ params }) => {
                 onChange={handleChange}
                 className="input input-bordered w-24 md:w-auto"
                 name="tel"
+                required
               />
               <label className="block text-gray-700 text-sm font-bold mb-2">
                 เหตุผลการเข้าใช้
@@ -210,6 +253,7 @@ const DetailPage: React.FC<{ params: { id: string } }> = ({ params }) => {
                 onChange={handleChange}
                 id="grid-first-name"
                 name="reason"
+                required
               ></textarea>
             </div>
             <div className="mb-4">
@@ -222,6 +266,7 @@ const DetailPage: React.FC<{ params: { id: string } }> = ({ params }) => {
                 onChange={handleChange}
                 className="input input-bordered w-36 md:w-auto"
                 name="date"
+                required
               />
             </div>
             <label className="block text-gray-700 text-sm font-bold mb-2">
@@ -238,6 +283,7 @@ const DetailPage: React.FC<{ params: { id: string } }> = ({ params }) => {
                   onChange={handleChange}
                   className="input input-bordered w-24 md:w-auto"
                   name="timeStart"
+                  required
                 />
               </div>
               <div>
@@ -250,6 +296,7 @@ const DetailPage: React.FC<{ params: { id: string } }> = ({ params }) => {
                   onChange={handleChange}
                   className="input input-bordered w-24 md:w-auto"
                   name="timeEnd"
+                  required
                 />
               </div>
             </div>

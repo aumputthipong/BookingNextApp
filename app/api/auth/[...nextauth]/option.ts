@@ -31,14 +31,13 @@ export const options: NextAuthOptions = {
     async session({ session ,token}) {
       const sessionUser = await User.findOne({ email: session.user?.email });
       if (sessionUser) {
-        // session.user.id = sessionUser._id;
-        session.user.role = sessionUser.role; // Add this line
+        session.user.id =  sessionUser._id;
+        session.user.role = sessionUser.role;
       }
       return session;
     },
 
     async signIn({ profile, user}) {
-
       // console.log("profile",user);
       const userInfo = user;
    
@@ -53,11 +52,6 @@ export const options: NextAuthOptions = {
             email: profile?.email,
             name: profile?.name,
             image: userInfo?.image,
-            // role: profile?.role,
-            // email: userInfo?.email,
-            // name: userInfo?.name,
-            // image: userInfo?.image,
-            // role: userInfo?.role,
           });
         }
         else{

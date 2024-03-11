@@ -3,6 +3,7 @@ import mongoose,{Schema} from "mongoose";
 const bookingSchema = new Schema(
     {
         roomId: String,
+        userId: String,
         studentId: String,
         studentName: String,
         tel: String,

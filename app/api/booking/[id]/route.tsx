@@ -5,9 +5,9 @@ import { NextResponse, } from "next/server";
 
 export async function POST(request:Request) {
   const roomId = request.url.slice(request.url.lastIndexOf('/')+1)
-  const{studentId,studentName,tel,reason,date,timeStart,timeEnd}= await request.json();
+  const{studentId,studentName,userId,tel,reason,date,timeStart,timeEnd}= await request.json();
   await connectMongoDB();
-  await Booking.create({roomId,studentId,studentName,tel,reason,date,timeStart,timeEnd});
+  await Booking.create({roomId,studentId,userId,studentName,tel,reason,date,timeStart,timeEnd});
   
   return NextResponse.json({message:"Room created"},{status:201});
 } 

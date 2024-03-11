@@ -13,7 +13,7 @@ const HeroTitle = () => {
   <div className="hero-content text-center text-neutral-content">
     <div className="max-w-md">
       <h1 className="mb-5 text-5xl font-bold">Creative and Ideation Booking Website</h1>
-      <p className="mb-5">Provident cupiditate voluptatem et in. Quaerat fugiat ut assumenda excepturi exercitationem quasi. In deleniti eaque aut repudiandae et a id nisi.</p>
+      <p className="mb-5">ยินดีต้อนรับทุกท่าน ขอต้อนรับเข้าสู่เว็บไซต์สำหรับการจองห้อง Creative and Ideation นักศึกษาหรือบุคลากรคณะไอที สามารถเลือกห้องที่ต้องการจองเพื่อใช้งาน และกรอกข้อมูลพื้นฐานที่ต้องระบุในการใช้งานสถานที่</p>
       {session && session.user && session.user.role === "admin" && 
       ( // Conditional rendering with type safety
             <Link href="/admin">
