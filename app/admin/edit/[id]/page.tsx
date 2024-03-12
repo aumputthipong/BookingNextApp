@@ -17,7 +17,7 @@ const EditRoomPage = async ({ params }: { params: { id: string } }) => {
     const name = formData.get("name") as string;
     const description = formData.get("description") as string;
 
-    const apiUrl = `https://${process.env.NEXT_PUBLIC_HOST}/api/room/`;
+    const apiUrl = `${process.env.NEXT_PUBLIC_HOST}/api/room/`;
     const params = new URLSearchParams();
     params.append("name", name);
     params.append("description", description);

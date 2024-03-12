@@ -16,7 +16,7 @@ const DeletePage = () => {
 
   async function fetchRooms() {
     try {
-      const res = await fetch(`https://${process.env.NEXT_PUBLIC_HOST}/api/room`);
+      const res = await fetch(`${process.env.NEXT_PUBLIC_HOST}/api/room`);
       const posts: Room[] = await res.json();
       renderRooms(posts);
     } catch (error) {
