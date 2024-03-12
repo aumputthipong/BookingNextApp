@@ -3,7 +3,7 @@
 import Navbar from "@/app/components/Navbar";
 import Link from "next/link";
 import React from "react";
-import { FormEvent } from "react";
+import { FormEvent, useEffect } from "react";
 const CreatePage = () => {
   async function createRoom(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -23,47 +23,67 @@ const CreatePage = () => {
       console.error("Failed to create room");
     }
   }
+
+  useEffect(() => {
+    document.body.style.overflow = "hidden";
+    return () => {
+      document.body.style.overflow = "unset";
+    };
+  }, []);
+
   return (
-    <section className="flex items-center justify-center">
-      <form className="w-full max-w-lg" onSubmit={createRoom}>
-        <h1 className="font-bold text-2xl text-[#002D74]"> Create Room</h1>
-        <label className="form-control">
-          <div className="label">
-            <span className="label-text">ชื่อห้อง</span>
+    <section className="bg-gray-100 min-h-screen flex items-center justify-center">
+      <form
+          className="max-w-lg w-full p-8 bg-white shadow-lg rounded-lg"
+          onSubmit={createRoom}
+          style={{ marginBottom: '5%'}}
+        >
+          <h1 className="text-3xl font-bold text-[#002D74] mb-8">
+            Create Room
+          </h1>
+          <div className="mb-4">
+            <label
+              htmlFor="name"
+              className="block text-sm font-medium text-gray-700"
+            >
+              Room Name
+            </label>
+            <input
+              type="text"
+              name="name"
+              id="name"
+              className="mt-1 p-2 border border-gray-300 rounded-md w-full"
+              required
+            />
           </div>
-          <input
-            className="input input-bordered w-24 md:w-auto"
-            id="grid-first-name"
-            type="text"
-            name="name"
-            required
-          />
-        </label>
-        <label className="form-control">
-          <div className="label">
-            <span className="label-text">รายละเอียด</span>
+          <div className="mb-4">
+            <label
+              htmlFor="description"
+              className="block text-sm font-medium text-gray-700"
+            >
+              Description
+            </label>
+            <textarea
+              name="description"
+              id="description"
+              className="mt-1 p-2 border border-gray-300 rounded-md w-full h-32"
+              required
+            ></textarea>
           </div>
-          <textarea
-            className="textarea textarea-bordered h-24"
-            id="grid-first-name"
-            name="description"
-            required
-          ></textarea>
-        </label>
-        <label className="form-control">
-          <div className="label"></div>
-          <button
-            type="submit"
-            className="btn btn-success"
-          >
-            สร้าง
-          </button>
-        </label>
-        <div className="label"></div>
-        <Link href={"/admin"}>
-          <button className="btn btn-warning">Back to console</button>
-        </Link>
-      </form>
+          <div className="flex justify-between items-center">
+            <button
+              type="submit"
+              className="px-20 py-2 bg-green-500 text-white rounded-md hover:bg-green-600"
+            >
+              Create
+            </button>
+            <Link href={"/admin"}>
+              <button className="px-10 py-2 bg-yellow-400 text-white rounded-md hover:bg-yellow-500">
+                Back to console
+              </button>
+            </Link>
+          </div>
+        </form>
       <dialog id="create_modal" className="modal modal-bottom sm:modal-middle">
         <div className="modal-box">
           <h3 className="font-bold text-lg">Successfully created!!!</h3>
