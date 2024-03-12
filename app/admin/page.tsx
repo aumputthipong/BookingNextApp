@@ -6,7 +6,6 @@ const AdminPage = () => {
   return (
     
       <div>
-
       <Console/>
         </div>
   )
