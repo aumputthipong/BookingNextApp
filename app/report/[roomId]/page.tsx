@@ -4,12 +4,13 @@ import Navbar from "@/app/components/Navbar";
 import Link from "next/link";
 import React from "react";
 import { FormEvent } from "react";
-const CreateReport = () => {
+const CreateReport : React.FC<{ params: { roomId: string } }>= ({ params }) => {
+  console.log(params.roomId)
   async function createReport(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
-
+    
     const formData = new FormData(event.currentTarget);
-    const response = await fetch("http://localhost:3000/api/report", {
+    const response = await fetch(`http://localhost:3000/api/report/${params.roomId}`, {
       method: "POST",
       body: formData,
     });
@@ -41,13 +42,13 @@ const CreateReport = () => {
         </label>
         <label className="form-control">
           <div className="label">
-            <span className="label-text">ชื่อห้อง</span>
+            <span className="label-text">ชื่อผู้แจ้ง</span>
           </div>
           <input
             className="input input-bordered w-24 md:w-auto"
             id="grid-first-name"
             type="text"
-            name="roomName"
+            name="reporterName"
             required
           />
         </label>

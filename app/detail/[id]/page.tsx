@@ -179,11 +179,9 @@ const DetailPage: React.FC<{ params: { id: string } }> = ({ params }) => {
       <div className="flex my-3">
         <div className="border-solid shadow-xl border-2 w-4/5 rounded-md bg-base-100 mx-1 p-6 ">
           <div className="flex justify-end mb-4">
-            <Link href={`/report`}>
-              <button className="btn">
-                <RiMegaphoneLine />
-                แจ้งปัญหา
-              </button>
+
+            <Link href={`/report/${params.id}`}>
+              <button className="btn"><RiMegaphoneLine />แจ้งปัญหา</button>
             </Link>
           </div>
           <h1 className="text-3xl font-bold my-6">{room?.name}</h1>

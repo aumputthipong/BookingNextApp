@@ -42,6 +42,7 @@ const Console = () => {
         <button className="btn h-60 w-60 text-2xl" style={{ marginRight: '20px' }}>
           <AiFillTool />
           จัดการห้อง
+
         </button>
 
         <Link href={"/admin/report"}>
