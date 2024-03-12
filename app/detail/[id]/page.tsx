@@ -120,12 +120,12 @@ const DetailPage: React.FC<{ params: { id: string } }> = ({ params }) => {
   return (
     <div>
       {/*  -------------------------------- ปฎิทิน -------------------------------------------*/}
-      <div className="flex my-3 ">
-        <div className="border-solid shadow-xl border-2 rounded-md bg-base-100 mx-1 p-6 w-full flex grid-cols-2 ">
+      <div className="flex my-3">
+        <div className="border-solid shadow-xl border-2 rounded-md bg-base-100 mx-1 p-6 w-full flex grid-cols-1">
           <div className="mx-20">
             <MyCalendar onDateClick={handleDateClick} />
           </div>
-          <div className="grid grid-cols-3 gap-4">
+          <div className="grid grid-cols-1 gap-4">
             <div>
               <div className="flex row">
                 <h2 className="text-2xl font-light">เวลาตอนนี้:</h2>
@@ -137,7 +137,6 @@ const DetailPage: React.FC<{ params: { id: string } }> = ({ params }) => {
                 />
               </div>
               {/*  -------------------------------- ส่วนตารางงาน  --------------------------------------- */}
-
               <table className="table mt-5">
                 <thead>
                   <tr>
@@ -181,7 +180,10 @@ const DetailPage: React.FC<{ params: { id: string } }> = ({ params }) => {
         <div className="border-solid shadow-xl border-2 w-4/5 rounded-md bg-base-100 mx-1 p-6 ">
           <div className="flex justify-end mb-4">
             <Link href={`/report`}>
-              <button className="btn"><RiMegaphoneLine />แจ้งปัญหา</button>
+              <button className="btn">
+                <RiMegaphoneLine />
+                แจ้งปัญหา
+              </button>
             </Link>
           </div>
           <h1 className="text-3xl font-bold my-6">{room?.name}</h1>
@@ -190,17 +192,17 @@ const DetailPage: React.FC<{ params: { id: string } }> = ({ params }) => {
           <h2 className="mb-2 text-lg font-semibold text-gray-900 dark:text-white my-4">
             ข้อควรปฎิบัติ:
           </h2>
-          <ul className="max-w-md space-y-1 list-disc list-inside">
+          <ul className="space-y-1 list-disc list-inside">
             <li>นักศึกษาจองห้องใช้ห้องได้ไม่เกิน 2 ชม./ครั้ง</li>
             <li>จำนวนต่อการใช้ห้อง ไม่เกิน 10 คน/ห้อง</li>
             <li>
-              ทุกห้องจะเปิดให้บริการทุกวันจันทร์ ถึง ศุกร์ ตั้งแต่เวลา 8.00-19.00 น.
+              ทุกห้องจะเปิดให้บริการทุกวันจันทร์ ถึง ศุกร์ ตั้งแต่เวลา
+              8.00-19.00 น.
             </li>
             <li>ใช้งานได้เฉพาะห้องที่ได้ทำการจองไว้เท่านั้น</li>
             <li>ทำการจองห้องก่อนใช้งาน 1 วัน</li>
             <li>รักษาความสะอาดของห้อง</li>
-            <li>ไากพบปัญหาสามารถกดแจ้งปัญหาพร้อมระบุปัญหาที่พบเจอได้</li>
-            <li>ไม่ส่งเสียงดังรบกวนห้องอื่น</li>
+            <li>หากพบปัญหาสามารถกดแจ้งปัญหาพร้อมระบุปัญหาที่พบเจอได้</li>
             <li>ไม่ส่งเสียงดังรบกวนห้องอื่น</li>
           </ul>
         </div>
