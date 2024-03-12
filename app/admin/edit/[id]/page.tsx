@@ -74,12 +74,12 @@ const EditRoomPage = async ({ params }: { params: { id: string } }) => {
         <div className="flex justify-between items-center">
             <button
               type="submit"
-              className="px-20 py-2 bg-green-500 text-white rounded-md hover:bg-green-600"
+              className="px-24 py-2 bg-green-500 text-white rounded-md hover:bg-green-600"
             >
               Save
             </button>
             <Link href={"/admin/edit"}>
-              <button className="px-14 py-2 bg-yellow-400 text-white rounded-md hover:bg-yellow-500">
+              <button className="px-10 py-2 bg-yellow-400 text-white rounded-md hover:bg-yellow-500">
                 Back to Edit Page
               </button>
             </Link>
