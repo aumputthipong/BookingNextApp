@@ -5,7 +5,7 @@ import { FormEvent } from "react";
 
 const EditRoomPage = async ({ params }: { params: { id: string } }) => {
   const roomId = params.id;
-  const res = await fetch(`http://localhost:3000/api/room/${roomId}`, {
+  const res = await fetch(`http://54.87.69.57:3000/api/room/${roomId}`, {
     next: { revalidate: 10 },
   });
   const room = await res.json();
@@ -17,7 +17,7 @@ const EditRoomPage = async ({ params }: { params: { id: string } }) => {
     const name = formData.get("name") as string;
     const description = formData.get("description") as string;
 
-    const apiUrl = "http://localhost:3000/api/room/";
+    const apiUrl = "http://54.87.69.57:3000/api/room/";
     const params = new URLSearchParams();
     params.append("name", name);
     params.append("description", description);

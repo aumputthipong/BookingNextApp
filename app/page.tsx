@@ -8,7 +8,7 @@ interface Room {
   description: string;
 }
 export default async function Home() {
-  const res = await fetch('http://localhost:3000/api/room',
+  const res = await fetch('http://54.87.69.57:3000/api/room',
   {next:{revalidate:10}});
   const posts: Room[] = await res.json();
   

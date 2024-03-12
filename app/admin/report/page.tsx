@@ -16,7 +16,7 @@ interface Report {
 }
 
 export default async function Report() {
-  const res = await fetch("http://localhost:3000/api/report", {
+  const res = await fetch("http://54.87.69.57:3000/api/report", {
     next: { revalidate: 10 },
   });
   const reports: Report[] = await res.json();
