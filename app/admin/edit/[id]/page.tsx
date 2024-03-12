@@ -38,7 +38,7 @@ const EditRoomPage = async ({ params }: { params: { id: string } }) => {
   }
 
   return (
-    <section className="flex items-center justify-center">
+    <section className="bg-gray-100 min-h-screen flex items-center justify-center">
       <form className="w-full max-w-lg" onSubmit={updateRoom}>
         <h1 className="font-bold text-2xl text-[#002D74]">
           {" "}
@@ -53,7 +53,7 @@ const EditRoomPage = async ({ params }: { params: { id: string } }) => {
             id="grid-first-name"
             type="text"
             name="name"
-            value={room.name}
+            defaultValue={room.name}
             required
           />
         </label>
@@ -70,19 +70,20 @@ const EditRoomPage = async ({ params }: { params: { id: string } }) => {
             {room.description}
           </textarea>
         </label>
-        <label className="form-control">
-          <div className="label"></div>
-          <button
-            type="submit"
-            className="btn btn-success"
-          >
-            บันทึกการแก้ไข
-          </button>
-        </label>
         <div className="label"></div>
-        <Link href={"/admin"}>
-          <button className="btn btn-warning">Back to console</button>
-        </Link>
+        <div className="flex justify-between items-center">
+            <button
+              type="submit"
+              className="px-20 py-2 bg-green-500 text-white rounded-md hover:bg-green-600"
+            >
+              บันทึกการแก้ไข
+            </button>
+            <Link href={"/admin/edit"}>
+              <button className="px-14 py-2 bg-yellow-400 text-white rounded-md hover:bg-yellow-500">
+                Back to Edit Page
+              </button>
+            </Link>
+          </div>
       </form>
       <dialog id="update_modal" className="modal modal-bottom sm:modal-middle">
         <div className="modal-box">
