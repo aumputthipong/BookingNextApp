@@ -72,18 +72,18 @@ const EditRoomPage = async ({ params }: { params: { id: string } }) => {
         </label>
         <div className="label"></div>
         <div className="flex justify-between items-center">
-            <button
-              type="submit"
-              className="px-24 py-2 bg-green-500 text-white rounded-md hover:bg-green-600"
-            >
-              Save
+          <button
+            type="submit"
+            className="px-24 py-2 bg-green-500 text-white rounded-md hover:bg-green-600"
+          >
+            Save
+          </button>
+          <Link href={"/admin/edit"}>
+            <button className="px-10 py-2 bg-yellow-400 text-white rounded-md hover:bg-yellow-500">
+              Back to Edit Page
             </button>
-            <Link href={"/admin/edit"}>
-              <button className="px-10 py-2 bg-yellow-400 text-white rounded-md hover:bg-yellow-500">
-                Back to Edit Page
-              </button>
-            </Link>
-          </div>
+          </Link>
+        </div>
       </form>
       <dialog id="update_modal" className="modal modal-bottom sm:modal-middle">
         <div className="modal-box">
