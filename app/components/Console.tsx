@@ -16,8 +16,8 @@ const Console = () => {
     };
   }, []);
   return (
-    <section className="bg-red-100 min-h-screen flex items-center justify-center">
-      <div className="bg-gray-100 px-20 py-12 md:w-100 rounded-2xl shadow-lg" style={{ marginBottom: '5%'}}>
+    <section className="bg-gray-100 min-h-screen flex items-center justify-center">
+      <div className="bg-slate-400 px-20 py-12 md:w-100 rounded-2xl shadow-lg" style={{ marginBottom: '5%'}}>
         <Link href={"/admin/create"} style={{ marginRight: '20px' }}>
           <button className="btn h-60 w-60 text-2xl">
             <FaPlus />

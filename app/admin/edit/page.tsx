@@ -18,7 +18,8 @@ const EditPage = async () => {
   
   return (
     <div className="flex flex-col items-center">
-      <div className="overflow-x-auto overflow-y-auto" style={{ maxHeight: '400px' }}>
+      <div className="overflow-x-auto">
+      {/* <div className="overflow-x-auto overflow-y-auto" style={{ maxHeight: '400px' }}> */}
         <table className="table">
           <thead>
             <tr>
