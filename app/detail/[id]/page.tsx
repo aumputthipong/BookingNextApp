@@ -40,13 +40,13 @@ const DetailPage: React.FC<{ params: { id: string } }> = ({ params }) => {
 
   useEffect(() => {
     const fetchRoom = async () => {
-      const res = await fetch(`http://localhost:3000/api/room/${params.id}`);
+      const res = await fetch(`http://34.226.202.95:3000/api/room/${params.id}`);
       const data = await res.json();
       setRoom(data);
     };
 
     const fetchBookings = async () => {
-      const res = await fetch(`http://localhost:3000/api/booking/${params.id}`);
+      const res = await fetch(`http://34.226.202.95:3000/api/booking/${params.id}`);
       const data = await res.json();
       setBookings(data);
     };
@@ -69,7 +69,7 @@ const DetailPage: React.FC<{ params: { id: string } }> = ({ params }) => {
 
     try {
       const response = await axios.post(
-        `http://localhost:3000/api/booking/${params.id}`,
+        `http://34.226.202.95:3000/api/booking/${params.id}`,
         formData,
         {
           headers: {
