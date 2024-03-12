@@ -145,7 +145,6 @@ const DetailPage: React.FC<{ params: { id: string } }> = ({ params }) => {
                     <th className="p-4 border">เวลาเริ่ม</th>
                     <th className="p-4 border">เวลาสิ้นสุด</th>
                     <th className="p-4 border">เหตุผล</th>
-                    <th className="p-4 border">วัน</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -162,12 +161,9 @@ const DetailPage: React.FC<{ params: { id: string } }> = ({ params }) => {
                       <tr key={booking.id}>
                         <td></td>
                         <td className="p-4 border">{booking.studentName}</td>
-                        <td className="p-4 border">{`${booking.timeStart < 12 ? booking.timeStart + " a.m." : booking.timeStart + " p.m."}`}</td>
-                        <td className="p-4 border">{`${booking.timeEnd < 12 ? booking.timeEnd + " a.m." : booking.timeEnd + " p.m."}`}</td>
+                        <td className="p-4 border">{booking.timeStart} น.</td>
+                        <td className="p-4 border">{booking.timeEnd} น.</td>
                         <td className="p-4 border">{booking.reason}</td>
-                        <td className="p-4 border">
-                          {new Date(booking.date).toLocaleDateString()}
-                        </td>
                       </tr>
                     ))}
                 </tbody>
