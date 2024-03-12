@@ -46,7 +46,7 @@ const EditRoomPage = async ({ params }: { params: { id: string } }) => {
         </h1>
         <label className="form-control">
           <div className="label">
-            <span className="label-text">ชื่อห้อง</span>
+            <span className="label-text">Room Name</span>
           </div>
           <input
             className="input input-bordered w-24 md:w-auto"
@@ -59,7 +59,7 @@ const EditRoomPage = async ({ params }: { params: { id: string } }) => {
         </label>
         <label className="form-control">
           <div className="label">
-            <span className="label-text">รายละเอียด</span>
+            <span className="label-text">Description</span>
           </div>
           <textarea
             className="textarea textarea-bordered h-24"
@@ -76,7 +76,7 @@ const EditRoomPage = async ({ params }: { params: { id: string } }) => {
               type="submit"
               className="px-20 py-2 bg-green-500 text-white rounded-md hover:bg-green-600"
             >
-              บันทึกการแก้ไข
+              Save
             </button>
             <Link href={"/admin/edit"}>
               <button className="px-14 py-2 bg-yellow-400 text-white rounded-md hover:bg-yellow-500">
