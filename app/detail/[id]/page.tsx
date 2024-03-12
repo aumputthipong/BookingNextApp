@@ -40,13 +40,13 @@ const DetailPage: React.FC<{ params: { id: string } }> = ({ params }) => {
 
   useEffect(() => {
     const fetchRoom = async () => {
-      const res = await fetch(`${process.env.NEXT_PUBLIC_HOST}/api/room/${params.id}`);
+      const res = await fetch(`https://${process.env.NEXT_PUBLIC_HOST}/api/room/${params.id}`);
       const data = await res.json();
       setRoom(data);
     };
 
     const fetchBookings = async () => {
-      const res = await fetch(`${process.env.NEXT_PUBLIC_HOST}/api/booking/${params.id}`);
+      const res = await fetch(`https://${process.env.NEXT_PUBLIC_HOST}/api/booking/${params.id}`);
       const data = await res.json();
       setBookings(data);
     };

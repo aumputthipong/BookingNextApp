@@ -16,7 +16,7 @@ interface Report {
 }
 
 export default async function Report() {
-  const res = await fetch(`${process.env.NEXT_PUBLIC_HOST}/api/report`, {
+  const res = await fetch(`https://${process.env.NEXT_PUBLIC_HOST}/api/report`, {
     next: { revalidate: 10 },
   });
   const reports: Report[] = await res.json();

@@ -11,7 +11,7 @@ const CreateReport: React.FC<{ params: { roomId: string } }> = ({ params }) => {
 
     const formData = new FormData(event.currentTarget);
     const response = await fetch(
-      `${process.env.NEXT_PUBLIC_HOST}/api/report/${params.roomId}`,
+      `https://${process.env.NEXT_PUBLIC_HOST}/api/report/${params.roomId}`,
       {
         method: "POST",
         body: formData,
