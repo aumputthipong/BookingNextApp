@@ -23,7 +23,7 @@ const EditPage = async () => {
         <table className="table">
           <thead>
             <tr>
-              <th></th>
+              <th>No.</th>
               <th>Name</th>
               <th>Edit</th>
             </tr>

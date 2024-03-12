@@ -81,7 +81,7 @@ const DeletePage = () => {
         <table className="table">
           <thead>
             <tr>
-              <th></th>
+              <th>No.</th>
               <th>Name</th>
               <th>Description</th>
             </tr>
