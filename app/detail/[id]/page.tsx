@@ -26,7 +26,6 @@ const DetailPage: React.FC<{ params: { id: string } }> = ({ params }) => {
   const [selectedDate, setSelectedDate] = useState(
     formatDate(new Date().toDateString())
   );
-  console.log(selectedDate);
   const [formData, setFormData] = useState({
     studentId: "",
     studentName: "",
@@ -40,13 +39,13 @@ const DetailPage: React.FC<{ params: { id: string } }> = ({ params }) => {
 
   useEffect(() => {
     const fetchRoom = async () => {
-      const res = await fetch(`http://localhost:3000/api/room/${params.id}`);
+      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/room/${params.id}`);
       const data = await res.json();
       setRoom(data);
     };
 
     const fetchBookings = async () => {
-      const res = await fetch(`http://localhost:3000/api/booking/${params.id}`);
+      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/booking/${params.id}`);
       const data = await res.json();
       setBookings(data);
     };
@@ -69,7 +68,7 @@ const DetailPage: React.FC<{ params: { id: string } }> = ({ params }) => {
 
     try {
       const response = await axios.post(
-        `${process.env.NEXT_PUBLIC_HOST}/api/booking/${params.id}`,
+        `${process.env.NEXT_PUBLIC_API_URL}/api/booking/${params.id}`,
         formData,
         {
           headers: {
@@ -118,99 +117,152 @@ const DetailPage: React.FC<{ params: { id: string } }> = ({ params }) => {
     return formattedDate;
   }
   return (
-    <div>
-      {/*  -------------------------------- ปฎิทิน -------------------------------------------*/}
-      <div className="flex my-3">
-        <div className="border-solid shadow-xl border-2 rounded-md bg-base-100 mx-1 p-6 w-full flex grid-cols-1">
+    <div className="bg-zinc-100">
+     {/*  -------------------------------- ปฎิทิน -------------------------------------------*/}
+      <div className="flex my-6 ">
+        <div className="bg-gradient-to-br bg-white  to-blue-50 shadow-2xl border border-blue-100 rounded-2xl mx-2 p-8 w-full flex grid-cols-1 hover:shadow-3xl transition-all duration-300">
           <div className="mx-20">
             <MyCalendar onDateClick={handleDateClick} />
           </div>
-          <div className="grid grid-cols-1 gap-4">
+          <div className="grid grid-cols-1 gap-6">
             <div>
-              <div className="flex row">
-                <h2 className="text-2xl font-light">เวลาตอนนี้:</h2>
-                <Clock
-                  format={"h:mm:ssa"}
-                  style={{ fontSize: "1.5em" }}
-                  ticking={true}
-                  className="mx-2"
-                />
-              </div>
+          <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4 mb-6">
+        <div className="flex items-center gap-2">
+
+          <h2 className="text-2xl font-bold text-gray-800">เวลาตอนนี้:</h2>
+        </div>
+        
+        <div className="bg-blue-600 text-white px-6 py-3 rounded-lg shadow-md border-2 border-blue-500">
+          <Clock
+            format={"h:mm:ssa"}
+            style={{ fontSize: "1.3em", fontWeight: "600" }}
+            ticking={true}
+            className="font-mono"
+          />
+        </div>
+        
+      </div>
               {/*  -------------------------------- ส่วนตารางงาน  --------------------------------------- */}
-              <table className="table mt-5">
-                <thead>
-                  <tr>
-                    <th></th>
-                    <th className="p-4 border">ชื่อผู้จอง</th>
-                    <th className="p-4 border">เวลาเริ่ม</th>
-                    <th className="p-4 border">เวลาสิ้นสุด</th>
-                    <th className="p-4 border">เหตุผล</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {bookings
-                    .filter((booking: any) => {
-                      const bookingDate = new Date(booking.date).toDateString();
-                      const today = new Date().toDateString();
-                      console.log("bookingDate", formatDate(bookingDate));
-                      // console.log("today", formatDate(today));
-                      console.log("selectedDate", selectedDate);
-                      return formatDate(bookingDate) == selectedDate; // เปรียบเทียบแค่วันที่
-                    })
-                    .map((booking: any) => (
-                      <tr key={booking.id}>
-                        <td></td>
-                        <td className="p-4 border">{booking.studentName}</td>
-                        <td className="p-4 border">{booking.timeStart} น.</td>
-                        <td className="p-4 border">{booking.timeEnd} น.</td>
-                        <td className="p-4 border">{booking.reason}</td>
-                      </tr>
-                    ))}
-                </tbody>
-              </table>
+              <div className="bg-white rounded-xl shadow-lg overflow-hidden border border-gray-100">
+                <table className="table w-full">
+                  <thead className=" bg-blue-600 rounded-full  text-white">
+                    <tr>
+                      <th className="p-4 text-center font-semibold">#</th>
+                      <th className="p-4 text-center font-semibold">ชื่อผู้จอง</th>
+                      <th className="p-4 text-center font-semibold">เวลาเริ่ม</th>
+                      <th className="p-4 text-center font-semibold">เวลาสิ้นสุด</th>
+                      <th className="p-4 text-center font-semibold">เหตุผล</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {bookings
+                      .filter((booking: any) => {
+                        const bookingDate = new Date(booking.date).toDateString();
+                        const today = new Date().toDateString();
+                        return formatDate(bookingDate) == selectedDate;
+                      })
+                      .map((booking: any, index: number) => (
+                        <tr key={booking.id} className="hover:bg-blue-50 transition-colors duration-200 border-b border-gray-100">
+                          <td className="p-4 text-center">
+                            <span className="bg-blue-100 text-blue-800 px-2 py-1 rounded-full text-sm font-semibold">
+                              {index + 1}
+                            </span>
+                          </td>
+                          <td className="p-4 text-center font-medium text-gray-800">{booking.studentName}</td>
+                          <td className="p-4 text-center">
+                            <span className="bg-green-100 text-green-800 px-3 py-1 rounded-full text-sm font-semibold">
+                              {booking.timeStart} น.
+                            </span>
+                          </td>
+                          <td className="p-4 text-center">
+                            <span className="bg-red-100 text-red-800 px-3 py-1 rounded-full text-sm font-semibold">
+                              {booking.timeEnd} น.
+                            </span>
+                          </td>
+                          <td className="p-4 text-center text-gray-600">{booking.reason}</td>
+                        </tr>
+                      ))}
+                  </tbody>
+                </table>
+                {bookings.filter((booking: any) => {
+                  const bookingDate = new Date(booking.date).toDateString();
+                  return formatDate(bookingDate) == selectedDate;
+                }).length === 0 && (
+                  <div className="p-8 text-center text-gray-500">
+                    <div className="text-4xl mb-2">📅</div>
+                    <p className="text-lg">ไม่มีการจองในวันที่เลือก</p>
+                  </div>
+                )}
+              </div>
             </div>
           </div>
         </div>
       </div>
-      <div className="flex my-3">
-        <div className="border-solid shadow-xl border-2 w-4/5 rounded-md bg-base-100 mx-1 p-6 ">
-          <div className="flex justify-end mb-4">
 
+      <div className="flex my-6 gap-4">
+        {/* Room Information Section */}
+        <div className="bg-gradient-to-br bg-white shadow-2xl border border-green-100 w-3/5 rounded-2xl mx-1 p-8 hover:shadow-3xl transition-all duration-300">
+          <div className="flex justify-between items-center mb-6">
+            <div className="flex items-center">
+              <div className="w-3 h-8 bg-gradient-to-b from-green-500 to-blue-500 rounded-full mr-4"></div>
+              <h1 className="text-4xl font-bold bg-gradient-to-r from-green-600 to-blue-600 bg-clip-text text-transparent">
+                {room?.name}
+              </h1>
+            </div>
             <Link href={`/report/${params.id}`}>
-              <button className="btn"><RiMegaphoneLine />แจ้งปัญหา</button>
+              <button className="bg-gradient-to-r from-red-500 to-pink-500 hover:from-red-600 hover:to-pink-600 text-white font-semibold py-3 px-6 rounded-full shadow-lg hover:shadow-xl transition-all duration-300 flex items-center gap-2">
+                <RiMegaphoneLine className="text-lg" />
+                แจ้งปัญหา
+              </button>
             </Link>
           </div>
-          <h1 className="text-3xl font-bold my-6">{room?.name}</h1>
-          <p className="">รายละเอียด: {room?.description}</p>
+          
+          <div className="bg-white rounded-xl p-6 shadow-lg border border-gray-100 mb-6">
+            <p className="text-gray-700 text-lg leading-relaxed">
+              <span className="font-semibold text-gray-800">รายละเอียด:</span> {room?.description}
+            </p>
+          </div>
 
-          <h2 className="mb-2 text-lg font-semibold text-gray-900 dark:text-white my-4">
-            ข้อควรปฎิบัติ:
-          </h2>
-          <ul className="space-y-1 list-disc list-inside">
-            <li>นักศึกษาจองห้องใช้ห้องได้ไม่เกิน 2 ชม./ครั้ง</li>
-            <li>จำนวนต่อการใช้ห้อง ไม่เกิน 10 คน/ห้อง</li>
-            <li>
-              ทุกห้องจะเปิดให้บริการทุกวันจันทร์ ถึง ศุกร์ ตั้งแต่เวลา
-              8.00-19.00 น.
-            </li>
-            <li>ใช้งานได้เฉพาะห้องที่ได้ทำการจองไว้เท่านั้น</li>
-            <li>ทำการจองห้องก่อนใช้งาน 1 วัน</li>
-            <li>รักษาความสะอาดของห้อง</li>
-            <li>หากพบปัญหาสามารถกดแจ้งปัญหาพร้อมระบุปัญหาที่พบเจอได้</li>
-            <li>ไม่ส่งเสียงดังรบกวนห้องอื่น</li>
-          </ul>
+          <div className="bg-white rounded-xl p-6 shadow-lg border border-gray-100">
+            <h2 className="mb-4 text-2xl font-bold text-gray-800 flex items-center">
+              <span className="text-2xl mr-3">📋</span>
+              ข้อควรปฎิบัติ:
+            </h2>
+            <ul className="space-y-3">
+              {[
+                "นักศึกษาจองห้องใช้ห้องได้ไม่เกิน 2 ชม./ครั้ง",
+                "จำนวนต่อการใช้ห้อง ไม่เกิน 10 คน/ห้อง", 
+                "ทุกห้องจะเปิดให้บริการทุกวันจันทร์ ถึง ศุกร์ ตั้งแต่เวลา 8.00-19.00 น.",
+                "ใช้งานได้เฉพาะห้องที่ได้ทำการจองไว้เท่านั้น",
+                "ทำการจองห้องก่อนใช้งาน 1 วัน",
+                "รักษาความสะอาดของห้อง",
+                "หากพบปัญหาสามารถกดแจ้งปัญหาพร้อมระบุปัญหาที่พบเจอได้",
+                "ไม่ส่งเสียงดังรบกวนห้องอื่น"
+              ].map((rule, index) => (
+                <li key={index} className="flex items-start">
+                  <span className="bg-gradient-to-r from-green-500 to-blue-500 text-white rounded-full w-6 h-6 flex items-center justify-center text-sm font-bold mr-3 mt-0.5 flex-shrink-0">
+                    {index + 1}
+                  </span>
+                  <span className="text-gray-700 leading-relaxed">{rule}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
         </div>
 
-        {/* column2 */}
+        {/* Booking Form Section */}
+        <div className="bg-gradient-to-br bg-white  border-purple-100 w-2/5 rounded-2xl mx-1 p-8 hover:shadow-3xl transition-all duration-300">
+          <div className="flex items-center mb-6">
+            <div className="w-3 h-8 bg-gradient-to-b from-purple-500 to-pink-500 rounded-full mr-4"></div>
+            <h2 className="text-2xl font-bold bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent">
+              แบบฟอร์มสำหรับการจอง
+            </h2>
+          </div>
 
-        {/* -------------------------------------------Form จองห้อง------------------------------------------------------- */}
-
-        <div className="border-solid shadow-xl border-2 w-2/5 rounded-md bg-base-100 mx-1 p-6 ">
-          <h2 className="text-2xl font-bold my-3">แบบฟอร์มสำหรับการจอง</h2>
-
-          <form className="col" onSubmit={handleSubmit}>
-            <div className="mb-4">
-              <label className="block text-gray-700 text-sm font-bold mb-2">
+          <form className="space-y-6" onSubmit={handleSubmit}>
+            <div>
+              <label className="block text-gray-700 text-sm font-bold mb-2 flex items-center">
+                
                 รหัสนักศึกษา
               </label>
               <input
@@ -218,26 +270,32 @@ const DetailPage: React.FC<{ params: { id: string } }> = ({ params }) => {
                 maxLength={8}
                 value={formData.studentId}
                 onChange={handleChange}
-                className="input input-bordered w-24 md:w-auto"
+                className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:border-purple-500 focus:ring-2 focus:ring-purple-200 transition-all duration-300 bg-white"
                 name="studentId"
+                placeholder="กรอกรหัสนักศึกษา"
                 required
               />
             </div>
-            <div className="mb-4">
-              <label className="block text-gray-700 text-sm font-bold mb-2">
+
+            <div>
+              <label className="block text-gray-700 text-sm font-bold mb-2 flex items-center">
+                
                 ชื่อผู้จอง
               </label>
               <input
                 type="string"
                 value={formData.studentName}
                 onChange={handleChange}
-                className="input input-bordered w-24 md:w-auto"
+                className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:border-purple-500 focus:ring-2 focus:ring-purple-200 transition-all duration-300 bg-white"
                 name="studentName"
+                placeholder="กรอกชื่อ-นามสกุล"
                 required
               />
             </div>
-            <div className="mb-4">
-              <label className="block text-gray-700 text-sm font-bold mb-2">
+
+            <div>
+              <label className="block text-gray-700 text-sm font-bold mb-2 flex items-center">
+                
                 เบอร์โทร
               </label>
               <input
@@ -245,67 +303,83 @@ const DetailPage: React.FC<{ params: { id: string } }> = ({ params }) => {
                 maxLength={10}
                 value={formData.tel}
                 onChange={handleChange}
-                className="input input-bordered w-24 md:w-auto"
+                className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:border-purple-500 focus:ring-2 focus:ring-purple-200 transition-all duration-300 bg-white"
                 name="tel"
+                placeholder="กรอกเบอร์โทรศัพท์"
                 required
               />
-              <label className="block text-gray-700 text-sm font-bold mb-2">
+            </div>
+
+            <div>
+              <label className="block text-gray-700 text-sm font-bold mb-2 flex items-center">
+                
                 เหตุผลการเข้าใช้
               </label>
               <textarea
-                className="textarea  textarea-md w-full max-w-xsarea textarea-bordered h-24"
+                className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:border-purple-500 focus:ring-2 focus:ring-purple-200 transition-all duration-300 bg-white h-24 resize-none"
                 value={formData.reason}
                 onChange={handleChange}
-                id="grid-first-name"
                 name="reason"
+                placeholder="กรอกเหตุผลการใช้ห้อง"
                 required
-              ></textarea>
+              />
             </div>
-            <div className="mb-4">
-              <label className="block text-gray-700 text-sm font-bold mb-2">
+
+            <div>
+              <label className="block text-gray-700 text-sm font-bold mb-2 flex items-center">
+                
                 วันที่
               </label>
               <input
                 type="date"
                 value={formData.date}
                 onChange={handleChange}
-                className="input input-bordered w-36 md:w-auto"
+                className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:border-purple-500 focus:ring-2 focus:ring-purple-200 transition-all duration-300 bg-white"
                 name="date"
                 required
               />
             </div>
-            <label className="block text-gray-700 text-sm font-bold mb-2">
-              เวลาที่ต้องการจอง
-            </label>
-            <div className="mb-4 flex items-center">
-              <div className="mx-6">
-                <label className="block text-gray-700 text-sm font-bold mb-2">
-                  เวลาเริ่ม
-                </label>
-                <input
-                  type="time"
-                  value={formData.timeStart}
-                  onChange={handleChange}
-                  className="input input-bordered w-24 md:w-auto"
-                  name="timeStart"
-                  required
-                />
-              </div>
-              <div>
-                <label className="block text-gray-700 text-sm font-bold mb-2">
-                  เวลาสิ้นสุด
-                </label>
-                <input
-                  type="time"
-                  value={formData.timeEnd}
-                  onChange={handleChange}
-                  className="input input-bordered w-24 md:w-auto"
-                  name="timeEnd"
-                  required
-                />
+
+            <div>
+              <label className="block text-gray-700 text-sm font-bold mb-4 flex items-center">
+                
+                เวลาที่ต้องการจอง
+              </label>
+              <div className="grid grid-cols-2 gap-4">
+                <div>
+                  <label className="block text-gray-600 text-sm font-medium mb-2">
+                    เวลาเริ่ม
+                  </label>
+                  <input
+                    type="time"
+                    value={formData.timeStart}
+                    onChange={handleChange}
+                    className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:border-purple-500 focus:ring-2 focus:ring-purple-200 transition-all duration-300 bg-white"
+                    name="timeStart"
+                    required
+                  />
+                </div>
+                <div>
+                  <label className="block text-gray-600 text-sm font-medium mb-2">
+                    เวลาสิ้นสุด
+                  </label>
+                  <input
+                    type="time"
+                    value={formData.timeEnd}
+                    onChange={handleChange}
+                    className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:border-purple-500 focus:ring-2 focus:ring-purple-200 transition-all duration-300 bg-white"
+                    name="timeEnd"
+                    required
+                  />
+                </div>
               </div>
             </div>
-            <button type="submit" className="btn">
+
+            <button 
+              type="submit" 
+              className="w-full bg-gradient-to-r bg-blue-600   hover:bg-blue-700 text-white font-bold py-4 px-6 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105 flex items-center justify-center gap-2"
+            >
+        
               จอง
             </button>
           </form>

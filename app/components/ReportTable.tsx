@@ -29,6 +29,8 @@ const ReportCard = async ({ report }: { report: Report }) => {
           </tr>
       </tbody>
     </div>
+
+    
   );
 };
 export default ReportCard;

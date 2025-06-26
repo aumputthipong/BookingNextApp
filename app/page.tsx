@@ -2,15 +2,28 @@ import Image from 'next/image'
 import Link from 'next/link'
 import RoomCard from './components/RoomCard'
 import HeroTitle from './components/HeroTitle'
+
 interface Room {
-  __id: string;
+  _id: string;
+  index: number;
   name: string;
   description: string;
 }
+
+
+
+
 export default async function Home() {
-  const res = await fetch('http://localhost:3000/api/room',
-  {next:{revalidate:10}});
-  const posts: Room[] = await res.json();
+  const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/room`, {
+  next: { revalidate: 10 }
+});
+
+if (!res.ok) {
+  console.error('Fetch failed with status:', res.status);
+  throw new Error('Failed to fetch data');
+}
+
+const posts: Room[] = await res.json();
   
   return (
     <main>
@@ -23,10 +36,10 @@ export default async function Home() {
         </ul> */}
         <br></br>
         <div className='grid grid-cols-3 gap-4'>
-        {posts.map((post:any)=>(
-            <div key={post.__id}>
-            <RoomCard post={post}/>
-                </div>  
+      {posts.map((post: Room, index: number) => (
+          <div key={post._id}>
+            <RoomCard post={post} index={index} />
+          </div>
         ))}
         </div>
       </div>

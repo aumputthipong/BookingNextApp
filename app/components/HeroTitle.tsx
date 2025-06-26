@@ -8,7 +8,7 @@ const HeroTitle = () => {
   //   console.log('session',session);
   // console.log('status', status);
   return (
-    <div className="hero min-h-screen" style={{backgroundImage: 'url(https://www.wework.com/ideas/wp-content/uploads/sites/4/2021/08/20201008-199WaterSt-2_v1-scaled.jpg)'}}>
+    <div className="hero min-h-screen" style={{backgroundImage: "url('/image/room/images (1).jpg')"}}>
   <div className="hero-overlay bg-opacity-60"></div>
   <div className="hero-content text-center text-neutral-content">
     <div className="max-w-md">

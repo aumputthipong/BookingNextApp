@@ -9,7 +9,7 @@ const CreatePage = () => {
     event.preventDefault();
 
     const formData = new FormData(event.currentTarget);
-    const response = await fetch("http://localhost:3000/api/room", {
+    const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/room`, {
       method: "POST",
       body: formData,
     });
@@ -32,7 +32,7 @@ const CreatePage = () => {
   }, []);
 
   return (
-    <section className="bg-gray-100 min-h-screen flex items-center justify-center">
+    <section className="bg-zinc-100 min-h-screen flex items-center justify-center">
       <form
         className="max-w-lg w-full p-8 bg-white shadow-lg rounded-lg"
         onSubmit={createRoom}

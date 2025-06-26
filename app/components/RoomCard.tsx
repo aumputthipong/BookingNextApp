@@ -6,6 +6,7 @@ import roomsdum from "../data/dummydata";
 
 interface Room {
   _id: string;
+  index: number;
   name: string;
   description: string;
 }
@@ -13,15 +14,17 @@ interface Room {
 
  
 
-const RoomCard = async ({ post }: { post: Room }) => {
+const RoomCard = ({ post, index }: { post: Room; index: number }) => {
 
+const imageNumber = (index % 5) + 1;
   return (
         <Link key={post._id} href={`/detail/${post._id}`}>
           <div className="card w-96 bg-base-100 shadow-xl hover:bg-gray-200">
             <figure>
               <img
-                src="https://www.wework.com/ideas/wp-content/uploads/sites/4/2021/08/20201008-199WaterSt-2_v1-scaled.jpg"
-                alt="Shoes"
+              className="h-64 w-full object-cover"
+              src={`/image/room/images (${imageNumber}).jpg`}
+                alt={`room${imageNumber}`}
               />
             </figure>
             <div className="card-body">
@@ -30,16 +33,10 @@ const RoomCard = async ({ post }: { post: Room }) => {
                 {/* <div className="badge badge-secondary">NEW</div> */}
               </h2>
               <p>{post.description}</p>
-              {/* <div className="card-actions justify-end">
-                <div className="badge badge-outline">creative</div>
-                <div className="badge badge-outline">knineZ</div>
-              </div> */}
             </div>
           </div>
         </Link>
    
- 
-    // <div>dd</div>
   );
 };
 
